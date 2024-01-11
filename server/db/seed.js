@@ -20,7 +20,7 @@ async function createTables() {
         console.log('Building All Tables...');
         await client.query(`
         CREATE TABLE dateList (
-            id SERIAL PRIMARY KEY,
+            dateId SERIAL PRIMARY KEY,
             name VARCHAR(255) UNIQUE NOT NULL,
             "atHome" BOOLEAN DEFAULT false,
             type VARCHAR(25) UNIQUE NOT NULL,
@@ -31,7 +31,7 @@ async function createTables() {
             examples INTEGER UNIQUE NOT NULL
             );
         CREATE TABLE dateExamples (
-            id SERIAL PRIMARY KEY,
+            exampleId SERIAL PRIMARY KEY,
             name VARCHAR(255) UNIQUE NOT NULL,
             address VARCHAR(255) NOT NULL,
             price VARCHAR(10) NOT NULL,
@@ -41,13 +41,13 @@ async function createTables() {
             "beenThere" BOOLEAN DEFAULT false,
             "city" INTEGER, 
             );
-        CREATE TABLE city (
-            id SERIAL PRIMARY KEY,
+        CREATE TABLE cities (
+            cityId SERIAL PRIMARY KEY,
             name VARCHAR(25) UNIQUE NOT NULL,
             state VARCHAR(15) UNIQUE NOT NULL
         )
         CREATE TABLE users (
-            id SERIAL PRIMARY KEY,
+            userId SERIAL PRIMARY KEY,
             name VARCHAR(100) NOT NULL, 
             username VARCHAR(25) UNIQUE NOT NULL,
             city INTEGER,

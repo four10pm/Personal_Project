@@ -17,7 +17,7 @@ async function createInitialData() {
             ('Portland Art Museum', '1219 SW Park Ave', '$$', 'The largest art museum in Oregon!', 'https://portlandartmuseum.org/', FALSE, 2)
         `);
         await client.query(`
-        INSERT INTO city (name, state)
+        INSERT INTO cities (name, state)
         VALUES
             ('New York', 'New York'),
             ('Portland', 'Oregon')
