@@ -1,35 +1,36 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState, useContext } from 'react'
+import { Route, Routes } from 'react-router-dom'
+import Navigation from './components/navigation.js'
+import Account from './components/account.js'
+import Example from './components/examplepage.js'
+import { NameContext } from './components/context.js'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [selectedDate, setSelectedDate] = useState(null)
+  const [token, setToken] = useState(null)
+  const myName = useContext(NameContext)
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className="pageTop" myName={myName}>
+        <h1> Let's Plan a Date! </h1>
+        <h2> Hello {myName} </h2> 
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+      <div className="App" myName={myName}>
+          <Routes> 
+            <Route path="/" 
+            // element={<DateList selectedDate={selectedDate} setSelectedDate={setSelectedDate} token={token} /> } 
+            />
+            <Route path ="/account" element={<Account token={token} setToken={setToken} selectedDate={selectedDate} setSelectedDate={setSelectedDate}/>}/>
+          </Routes>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <div myName={myName}> 
+   
+      </div> 
     </>
   )
 }
 
 export default App
+
