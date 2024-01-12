@@ -7,10 +7,10 @@ async function dropTables() {
     try {
         console.log('Dropping All Tables...');
         await client.query(`
-      DROP TABLE IF EXISTS dateList;
-      DROP TABLE IF EXISTS dateExamples;
-      DROP TABLE IF EXISTS cities;
-      DROP TABLE IF EXISTS users;
+        DROP TABLE IF EXISTS users;
+        DROP TABLE IF EXISTS dateExamples;
+        DROP TABLE IF EXISTS dateList;
+        DROP TABLE IF EXISTS cities;
     `);
     } catch (error) {
         throw error;
@@ -21,6 +21,11 @@ async function createTables() {
     try {
         console.log('Building All Tables...');
         await client.query(`
+        CREATE TABLE cities (
+            "cityId" SERIAL PRIMARY KEY,
+            name VARCHAR(25) UNIQUE NOT NULL,
+            state VARCHAR(15) UNIQUE NOT NULL
+        );
         CREATE TABLE dateList (
             "dateId" SERIAL PRIMARY KEY,
             name VARCHAR(255) UNIQUE NOT NULL,
@@ -30,7 +35,7 @@ async function createTables() {
             description TEXT NOT NULL,
             "imgUrl" VARCHAR(255) DEFAULT 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fstock.adobe.com%2Fsearch%3Fk%3Ddating&psig=AOvVaw3s5euocQv2ZACjFrFxB3IC&ust=1705087443798000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCNCT_PWH1oMDFQAAAAAdAAAAABAa',
             "lastDone" DATE,
-            examples INTEGER UNIQUE
+            examples INTEGER REFERENCES dateExamples("exampleId")
             );
         CREATE TABLE dateExamples (
             "exampleId" SERIAL PRIMARY KEY,
@@ -41,21 +46,16 @@ async function createTables() {
             url TEXT NOT NULL,
             "imgUrl" VARCHAR(255) DEFAULT 'https://media.istockphoto.com/id/506670970/photo/sharing-a-moment-of-romance.jpg?s=612x612&w=0&k=20&c=GGgoSU2yMdLX9FChw7jzKeMmlOWomqJlVRyFi7Oau2w=',
             "beenThere" BOOLEAN DEFAULT false,
-            city INTEGER 
+            city INTEGER REFERENCES cities("cityId")
             );
-        CREATE TABLE cities (
-            "cityId" SERIAL PRIMARY KEY,
-            name VARCHAR(25) UNIQUE NOT NULL,
-            state VARCHAR(15) UNIQUE NOT NULL
-        );
         CREATE TABLE users (
             "userId" SERIAL PRIMARY KEY,
             name VARCHAR(100) NOT NULL, 
             username VARCHAR(25) UNIQUE NOT NULL,
             token VARCHAR(100),
-            city INTEGER,
-            favorites INTEGER,
-            "latestActivity" INTEGER
+            city INTEGER REFERENCES cities("cityId"),
+            favorites INTEGER REFERENCES dateList("dateId"),
+            "latestActivity" INTEGER REFERENCES dateList("lastDone")
         );
         `);
     } catch (error) {
@@ -73,11 +73,11 @@ async function createInitialData() {
             ('Board game night', TRUE, 'cozy', 'Free - $$', 'Play a co-op game to get closer, or turn up the heat with a competitive game and a prize for the winner!', 'https://cdn.thewirecutter.com/wp-content/media/2021/07/boardgames-2048px-2233.jpg', '2024-01-01')
             `);
         await client.query(`
-        INSERT INTO dateExamples (name, address, price, description, url, "beenThere", city)
+        INSERT INTO dateExamples (name, address, price, description, url, "imgUrl", "beenThere", city)
         VALUES
-            ('Metropolitan Museum of Art', '1000 Fifth Avenue', '$-$$', 'The largest art museum in the Americas!', 'https://www.metmuseum.org/', TRUE, 1),
-            ('Museum of Modern Art', '11 W 53rd St', '$$-$$$', 'Home to over 200,000 art works!', 'https://www.moma.org/', TRUE, 1),
-            ('Portland Art Museum', '1219 SW Park Ave', '$$', 'The largest art museum in Oregon!', 'https://portlandartmuseum.org/', FALSE, 2)
+            ('Metropolitan Museum of Art', '1000 Fifth Avenue', '$-$$', 'The largest art museum in the Americas!', 'https://www.metmuseum.org/', 'https://cdn.sanity.io/images/cctd4ker/production/73a42b4ea1644b2085acaad2896bfa4699687664-2320x920.jpg?rect=405,0,1490,920&w=3840&q=75&fit=clip&auto=format', TRUE, 1),
+            ('Museum of Modern Art', '11 W 53rd St', '$$-$$$', 'Home to over 200,000 art works!', 'https://www.moma.org/', 'https://insights.masterworks.com/wp-content/uploads/2023/02/1-1.jpg', TRUE, 1),
+            ('Portland Art Museum', '1219 SW Park Ave', '$$', 'The largest art museum in Oregon!', 'https://portlandartmuseum.org/', 'https://upload.wikimedia.org/wikipedia/commons/1/1d/Portland_Art_Museum%2C_Portland%2C_Oregon.jpg', FALSE, 2)
         `);
         await client.query(`
         INSERT INTO cities (name, state)

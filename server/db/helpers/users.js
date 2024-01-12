@@ -1,7 +1,5 @@
-module.exports = {
-    ...require('./client'),
-    ...require('./util'),
-};
+const client = require('../client')
+const util = require('../util')
 
 const getAllUsers = async () => {
     try {

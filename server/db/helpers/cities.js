@@ -1,7 +1,5 @@
-module.exports = {
-    ...require('./client'),
-    ...require('./util'),
-};
+const client = require('../client')
+const util = require('../util')
 
 const getAllCities = async () => {
     try {
@@ -77,7 +75,7 @@ async function updateCity(cityId, fields) {
 
 async function deleteCity(cityId) {
     try {
-        const { rows } = await client.query('DELETE FROM cities WHERE "cityId"=$1 RETURNING *', [cidyId]);
+        const { rows } = await client.query('DELETE FROM cities WHERE "cityId"=$1 RETURNING *', [cityId]);
         return rows[0];
     } catch (err) {
         throw err

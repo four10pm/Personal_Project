@@ -13,3 +13,41 @@ router.get('/', async (req, res, next) => {
         next(error);
     }
 });
+
+router.get('/:id', async (req, res, next) => {
+    try {
+        const city = await getCityById(req.params.id);
+        res.send(city)
+    } catch (error) {
+        next(error)
+    }
+})
+
+router.post('/', async (req, res, next) => {
+    try {
+        const city = await createCity(req.body);
+        res.send(city)
+    } catch (error) {
+        next(error)
+    }
+})
+
+router.put('/:id', async (req, res, next) => {
+    try {
+        const city = await updateCity(req.params.id, req.body);
+        res.send(city)
+    } catch (error) {
+        next(error)
+    }
+})
+
+router.delete('/:id', async (req, res, next) => {
+    try {
+        const city = await deleteCity(req.params.id);
+        res.send(city)
+    } catch (error) {
+        next(error)
+    }
+})
+
+module.exports = router;
