@@ -1,0 +1,9 @@
+.navbar {
+    display: flex; 
+    justify-content: space-around; 
+    vertical-align: middle;
+}
+
+.navItem {
+    align-self: center; 
+}

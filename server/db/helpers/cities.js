@@ -75,11 +75,16 @@ async function updateCity(cityId, fields) {
 
 async function deleteCity(cityId) {
     try {
-        const { rows } = await client.query('DELETE FROM cities WHERE "cityId"=$1 RETURNING *', [cityId]);
+        const { rows } = await client.query(
+            `DELETE FROM cities 
+            WHERE "cityId"=$1 
+            RETURNING *`, 
+            [cityId]);
         return rows[0];
     } catch (err) {
         throw err
     }
 }
+
 
 module.exports = { getAllCities, getCityById, createCity, updateCity, deleteCity } 

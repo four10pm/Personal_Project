@@ -15,6 +15,19 @@ const getAllDateList = async () => {
     }
 }
 
+const getDateTypes = async () => {
+    try {
+        const { rows }
+         = await client.query(`
+            SELECT type
+            FROM dateList;
+        `)
+        return rows
+    } catch (error) {
+        throw error
+    }
+}
+
 const getDateListItemById = async (dateListId) => {
     try {
         const {
@@ -83,4 +96,4 @@ async function deleteDateListItem(dateListId) {
     }
 }
 
-module.exports = { getAllDateList, getDateListItemById, createDateListItem, updateDateListItem, deleteDateListItem } 
+module.exports = { getAllDateList, getDateTypes, getDateListItemById, createDateListItem, updateDateListItem, deleteDateListItem } 

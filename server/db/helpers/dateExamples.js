@@ -21,8 +21,8 @@ const getDateExampleById = async (dateExampleId) => {
         } = await client.query(
             `
                 SELECT *
-                FROM dateExample
-                WHERE "dateExampleId" =${dateExampleId};
+                FROM dateExamples
+                WHERE "exampleId" =${dateExampleId};
             `
         )
         return dateExample;
@@ -30,6 +30,32 @@ const getDateExampleById = async (dateExampleId) => {
         throw error
     }
 }
+
+const getDateExamplesByCity = async (cityId) => {
+    try {
+        const { rows } = await client.query(
+            `
+                SELECT 
+                    exs.name as name, 
+                    exs.price as price, 
+                    exs.description as description, 
+                    exs.url as url, 
+                    exs."imgUrl" as imgUrl,
+                    exs."beenThere" as beenThere, 
+                    exs.address as address, 
+                    cities.name as city,
+                    cities.state as state
+                FROM dateExamples exs
+                INNER JOIN cities ON city = cities."cityId"
+                WHERE city = ${cityId}
+            `
+        )
+        return rows;
+    } catch (error) {
+        throw error
+    }
+}
+
 
 const createDateExample = async ({ name, address, price, description, url, imgUrl, city }) => {
     try {
@@ -61,7 +87,7 @@ async function updateDateExample(dateExampleId, fields) {
             const { rows } = await client.query(`
             UPDATE dateExamples
             SET ${util.dbFields(toUpdate).insert}
-            WHERE "dateExampleId"=${dateExampleId}
+            WHERE "exampleId"=${dateExampleId}
             RETURNING *;
           `, Object.values(toUpdate));
             dateExample = rows[0];
@@ -75,11 +101,11 @@ async function updateDateExample(dateExampleId, fields) {
 
 async function deleteDateExample(dateExampleId) {
     try {
-        const { rows } = await client.query('DELETE FROM dateExamples WHERE "dateExampleId"=$1 RETURNING *', [dateExampleId]);
+        const { rows } = await client.query('DELETE FROM dateExamples WHERE "exampleId"=$1 RETURNING *', [dateExampleId]);
         return rows[0];
     } catch (err) {
         throw err
     }
 }
 
-module.exports = { getAllDateExamples, getDateExampleById, createDateExample, updateDateExample, deleteDateExample } 
+module.exports = { getAllDateExamples, getDateExampleById, getDateExamplesByCity, createDateExample, updateDateExample, deleteDateExample } 

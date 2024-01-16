@@ -1,0 +1,27 @@
+.searchForm {
+    display: flex;
+    flex-direction: column; 
+    width: 25%;
+    text-align: center; 
+}
+
+.dateListArea {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .date {
+    border: 2px white solid; 
+    padding: 5px; 
+    width: 25%;
+    margin: 2px; 
+  }
+  
+  .dateimage {
+    height: 150px; 
+  }
+  
+  .dateButton {
+    background-color: lightgray; 
+    color: black; 
+  }
