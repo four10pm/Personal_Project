@@ -36,7 +36,7 @@ const getDateListItemById = async (dateListId) => {
             `
                 SELECT *
                 FROM dateList
-                WHERE "dateListId" =${dateListId};
+                WHERE "dateId" =${dateListId};
             `
         )
         return dateList;
@@ -75,7 +75,7 @@ async function updateDateListItem(dateListId, fields) {
             const { rows } = await client.query(`
             UPDATE dateList
             SET ${util.dbFields(toUpdate).insert}
-            WHERE "dateListId"=${dateListId}
+            WHERE "dateId"=${dateListId}
             RETURNING *;
           `, Object.values(toUpdate));
             dateList = rows[0];
@@ -89,7 +89,7 @@ async function updateDateListItem(dateListId, fields) {
 
 async function deleteDateListItem(dateListId) {
     try {
-        const { rows } = await client.query('DELETE FROM dateList WHERE "dateListId"=$1 RETURNING *', [dateListId]);
+        const { rows } = await client.query('DELETE FROM dateList WHERE "dateId"=$1 RETURNING *', [dateListId]);
         return rows[0];
     } catch (err) {
         throw err
