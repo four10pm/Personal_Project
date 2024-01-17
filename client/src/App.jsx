@@ -4,13 +4,13 @@ import Navigation from './components/navigation.jsx'
 import Account from './components/account.jsx'
 import DateList from './components/homepage.jsx'
 import Example from './components/examplepage.jsx'
-import { NameContext } from './components/context.jsx'
+import { nameContext } from './components/context.jsx'
 import './App.css'
 
 function App() {
   const [selectedDate, setSelectedDate] = useState(null)
   const [token, setToken] = useState(null)
-  const myName = useContext(NameContext)
+  const myName = useContext(nameContext)
 
   return (
     <>

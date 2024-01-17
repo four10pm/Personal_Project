@@ -8,15 +8,20 @@
 .dateListArea {
     display: flex;
     flex-wrap: wrap;
+    width: 100%; 
   }
   
   .date {
     border: 2px white solid; 
     padding: 5px; 
     width: 25%;
-    margin: 2px; 
+    margin: 5px; 
   }
-  
+
+  .example {
+    width: 30%;
+  }
+
   .dateimage {
     height: 150px; 
   }

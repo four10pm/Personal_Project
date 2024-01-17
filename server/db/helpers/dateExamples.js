@@ -31,6 +31,23 @@ const getDateExampleById = async (dateExampleId) => {
     }
 }
 
+const getDateExampleByDateId = async (dateId) => {
+    try {
+        const {
+            rows
+        } = await client.query(
+            `
+                SELECT *
+                FROM dateExamples
+                WHERE "dateId" =${dateId};
+            `
+        )
+        return rows;
+    } catch (error) {
+        throw error
+    }
+}
+
 const getDateExamplesByCity = async (cityId) => {
     try {
         const { rows } = await client.query(
@@ -108,4 +125,4 @@ async function deleteDateExample(dateExampleId) {
     }
 }
 
-module.exports = { getAllDateExamples, getDateExampleById, getDateExamplesByCity, createDateExample, updateDateExample, deleteDateExample } 
+module.exports = { getAllDateExamples, getDateExampleById, getDateExampleByDateId, getDateExamplesByCity, createDateExample, updateDateExample, deleteDateExample } 

@@ -1,11 +1,14 @@
 import React, { useEffect, useContext, useState } from 'react'
-import { NameContext } from './context'
+import { nameContext, urlContext, cityContext } from './context'
+import Example from './examplepage'
 import '../styles/homepage.css'
 
-function DateList() {
-    const APIurl = 'http://localhost:8080/api'
+function DateList({selectedDate, setSelectedDate}) {
+    const APIurl =useContext(urlContext) 
+    const myCity = useContext(cityContext)
     const [allDates, setAllDates] = useState([]);
     const [dateTypes, setDateTypes] = useState([]);
+    const [searchTerm, setSearchTerm] = useState([])
     const [searchResults, setSearchResults] = useState([])
 
     useEffect(() => {
@@ -35,7 +38,16 @@ function DateList() {
     }, [])
 
     //TODO
-    const datesFilterType = () => { return }
+    const datesFilterType = (e)=> { 
+        e.preventDefault()
+        const form = e.target
+        const formData = new FormData(form)
+        const typeSearchResults = allDates.filter((date) => {
+            return date.type.toLowerCase().includes(searchTerm)
+        })
+        setSearchResults(typeSearchResults);
+        return searchResults;
+    }
 
     const datesFilterPrice = () => { return }
 
@@ -45,17 +57,18 @@ function DateList() {
 
     const dateSearchbar = 
             (<>
-                <form name="typeFilter" method="post" className="searchForm" onSubmit={datesFilterType}>
+                <form method="post" className="searchForm" onSubmit={datesFilterType}>
                     <label> Filter by type <br/> 
-                        <select>
+                        <select name="typeFilter" value={searchTerm} defaultValue={""}>
+                            <option value={""}> Select </option>
                             {dateTypes.map((type) => {
                                 return (
-                                    <option> {type.type} </option>
+                                    <option value={type.type}> {type.type} </option>
                                 )
                             })}
                         </select>
                     </label>
-                    <button name="filterbutton" className="searchbutton"> Filter </button>
+                    <button name="filterbutton" className="searchbutton" type="submit"> Filter </button>
                 </form>
             </>)
             // TODO: add filter by price, by lastdone, by at home
@@ -70,16 +83,18 @@ function DateList() {
                     <p className="datedescription"> {date.description} </p>
                     <p className="price"> {date.price} </p>
                     <p className="lastdone"> {date.lastdone} </p>
-                    {!date.atHome && <button className="dateButton" > In Your City </button>}
+                    {!date.atHome && myCity && <button className="dateButton" id={date.dateId} onClick={()=> {setSelectedDate(date.dateId); setSearchTerm("")}}> In Your City </button>}
+                    {!date.atHome && !myCity && <button className="dateButton" id={date.dateId} onClick={()=> {setSelectedDate(date.dateId); setSearchTerm("")}}> See Examples </button>}
                 </div>
             )
         })
 
     return (<>
-        {allDates.length === 0 && <p> No dates available! Log in to add ideas </p>}
         <div className="dateSearchBar"> {dateSearchbar} </div>
-        {searchResults.length > 0 && <div className="dateListArea"> {searchResults} </div>}
-        {searchResults.length === 0 && <div className="dateListArea"> {allDatesList} </div>}
+        {allDates.length === 0 && <p> No dates available! Log in to add ideas </p>}
+        {selectedDate && <Example selectedDate={selectedDate} setSelectedDate={setSelectedDate} /> }
+        {searchResults.length > 0 && !selectedDate && <div className="dateListArea"> {searchResults} </div>}
+        {searchResults.length === 0 && !selectedDate && <div className="dateListArea"> {allDatesList} </div>}
     </>)
 }
 

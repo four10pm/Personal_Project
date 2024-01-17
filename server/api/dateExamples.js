@@ -3,7 +3,7 @@ const util = require('util');
 
 const router = express.Router();
 // const { authRequired } = require('./utils');
-const { getAllDateExamples, getDateExampleById, createDateExample, updateDateExample, deleteDateExample, getDateExamplesByCity } = require('../db/helpers/dateExamples');
+const { getAllDateExamples, getDateExampleById, getDateExampleByDateId, createDateExample, updateDateExample, deleteDateExample, getDateExamplesByCity } = require('../db/helpers/dateExamples');
 
 router.get('/', async (req, res, next) => {
     try {
@@ -17,6 +17,15 @@ router.get('/', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
     try {
         const dateExample = await getDateExampleById(req.params.id);
+        res.send(dateExample)
+    } catch (error) {
+        next(error)
+    }
+})
+
+router.get('/examples/:id', async(req, res, next) => {
+    try {
+        const dateExample = await getDateExampleByDateId(req.params.id);
         res.send(dateExample)
     } catch (error) {
         next(error)
