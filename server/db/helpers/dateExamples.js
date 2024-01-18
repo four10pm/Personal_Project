@@ -22,7 +22,7 @@ const getDateExampleById = async (dateExampleId) => {
             `
                 SELECT *
                 FROM dateExamples
-                WHERE "exampleId" =${dateExampleId};
+                WHERE "exampleId" = ${dateExampleId};
             `
         )
         return dateExample;

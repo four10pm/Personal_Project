@@ -3,7 +3,7 @@ const util = require('util');
 
 const router = express.Router();
 // const { authRequired } = require('./utils');
-const { getAllDateExamples, getDateExampleById, getDateExampleByDateId, createDateExample, updateDateExample, deleteDateExample, getDateExamplesByCity } = require('../db/helpers/dateExamples');
+const { getAllDateExamples, getDateExampleById, getDateExampleByDateId, getDateExamplesByCity, createDateExample, updateDateExample, deleteDateExample} = require('../db/helpers/dateExamples');
 
 router.get('/', async (req, res, next) => {
     try {

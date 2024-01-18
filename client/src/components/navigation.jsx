@@ -11,6 +11,7 @@ function Navigation () {
     return (
         <div className="navbar"> 
             <Link to="/" className="navItem"> Date Ideas </Link>
+            <Link to="/cities" className="navItem"> City Dates </Link> 
             <Link to="/account" className="navItem"> Account </Link>
             <Link to="/contribute" className="navItem"> Contribute </Link> 
             {<p className="welcome navItem"> Hello, {myName}! </p>}
