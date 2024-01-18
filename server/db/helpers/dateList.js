@@ -19,7 +19,7 @@ const getDateTypes = async () => {
     try {
         const { rows }
          = await client.query(`
-            SELECT type
+            SELECT DISTINCT type
             FROM dateList;
         `)
         return rows
