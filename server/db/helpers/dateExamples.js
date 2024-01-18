@@ -33,13 +33,24 @@ const getDateExampleById = async (dateExampleId) => {
 
 const getDateExampleByDateId = async (dateId) => {
     try {
-        const {
-            rows
-        } = await client.query(
+        const { rows } = await client.query(
             `
-                SELECT *
-                FROM dateExamples
-                WHERE "dateId" =${dateId};
+                SELECT 
+                    exs."exampleId" as "exampleId",
+                    exs.name as name, 
+                    exs.price as price, 
+                    exs.description as description, 
+                    exs.url as url, 
+                    exs."imgUrl" as "imgUrl",
+                    exs."beenThere" as "beenThere", 
+                    exs.address as address, 
+                    exs."dateId" as "dateId",
+                    exs.city as "cityId",
+                    cities.name as city,
+                    cities.state as state
+                FROM dateExamples exs
+                INNER JOIN cities ON city = cities."cityId"
+                WHERE  exs."dateId" = ${dateId};
             `
         )
         return rows;
@@ -53,12 +64,13 @@ const getDateExamplesByCity = async (cityId) => {
         const { rows } = await client.query(
             `
                 SELECT 
+                    exs."exampleId" as "exampleId",
                     exs.name as name, 
                     exs.price as price, 
                     exs.description as description, 
                     exs.url as url, 
-                    exs."imgUrl" as imgUrl,
-                    exs."beenThere" as beenThere, 
+                    exs."imgUrl" as "imgUrl",
+                    exs."beenThere" as "beenThere", 
                     exs.address as address, 
                     cities.name as city,
                     cities.state as state

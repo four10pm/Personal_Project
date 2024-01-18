@@ -27,6 +27,7 @@ function Example ({selectedDate, setSelectedDate}) {
                 <div className="date example card">
                     <h3 className="title"> {date.name} </h3>
                     <p className="address"> {date.address} </p>
+                    <p className="city"> {date.city}, {date.state} </p>
                     <img className="dateimage" src={date.imgUrl} />
                     <p className="datedescription"> {date.description} </p>
                     <p className="price"> {date.price} </p>
