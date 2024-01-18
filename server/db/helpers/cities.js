@@ -87,4 +87,4 @@ async function deleteCity(cityId) {
 }
 
 
-module.exports = { getAllCities, getCityById, createCity, updateCity, deleteCity } 
+module.exports = { getAllCities, getCityById, createCity, updateCity, deleteCity, getDateExamplebyCity } 

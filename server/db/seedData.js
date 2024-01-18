@@ -31,7 +31,7 @@ async function createTables() {
             "dateId" SERIAL PRIMARY KEY,
             name VARCHAR(255) UNIQUE NOT NULL,
             "atHome" BOOLEAN DEFAULT false,
-            type VARCHAR(25) UNIQUE NOT NULL,
+            type VARCHAR(25) NOT NULL,
             price VARCHAR(10) NOT NULL,
             description TEXT NOT NULL,
             "imgUrl" VARCHAR(255) DEFAULT 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fstock.adobe.com%2Fsearch%3Fk%3Ddating&psig=AOvVaw3s5euocQv2ZACjFrFxB3IC&ust=1705087443798000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCNCT_PWH1oMDFQAAAAAdAAAAABAa',

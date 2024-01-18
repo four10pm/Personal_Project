@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom'
 import Navigation from './components/navigation.jsx'
 import Account from './components/account.jsx'
 import DateList from './components/homepage.jsx'
+import Contribute from './components/contribute.jsx'
 import Example from './components/examplepage.jsx'
 import { nameContext } from './components/context.jsx'
 import './App.css'
@@ -24,6 +25,7 @@ function App() {
             element={<DateList selectedDate={selectedDate} setSelectedDate={setSelectedDate} token={token} /> } 
             />
             <Route path ="/account" element={<Account token={token} setToken={setToken} selectedDate={selectedDate} setSelectedDate={setSelectedDate}/>}/>
+            <Route path="/contribute" element={<Contribute token={token}/>}/>
           </Routes>
       </div>
     </>

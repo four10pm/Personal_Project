@@ -10,9 +10,9 @@ function Navigation () {
 
     return (
         <div className="navbar"> 
-            <Link to="/homepage.jsx" className="navItem"> Date Ideas </Link>
-            <Link to="/account.jsx" className="navItem"> Account </Link>
-            <Link to="/contribute.jsx" className="navItem"> Contribute </Link> 
+            <Link to="/" className="navItem"> Date Ideas </Link>
+            <Link to="/account" className="navItem"> Account </Link>
+            <Link to="/contribute" className="navItem"> Contribute </Link> 
             {<p className="welcome navItem"> Hello, {myName}! </p>}
             {!token && <p className="welcome navItem"> Please log in! </p>}
         </div> 
