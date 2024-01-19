@@ -65,6 +65,7 @@ const getDateExamplesByCity = async (cityId) => {
             `
                 SELECT 
                     exs."exampleId" as "exampleId",
+                    exs."dateId" as "dateId",
                     exs.name as name, 
                     exs.price as price, 
                     exs.description as description, 
@@ -86,17 +87,17 @@ const getDateExamplesByCity = async (cityId) => {
 }
 
 
-const createDateExample = async ({ name, address, price, description, url, imgUrl, city }) => {
+const createDateExample = async ({ name, address, price, description, url, imgUrl, city, dateId }) => {
     try {
         const {
             rows: [dateExample],
         } = await client.query (
             `
-                INSERT INTO dateExamples(name, address, price, description, url, imgUrl, city )
-                VALUES($1, $2, $3, $4, $5, $6, $7)
+                INSERT INTO dateExamples(name, address, price, description, url, "imgUrl", city, "dateId" )
+                VALUES($1, $2, $3, $4, $5, $6, $7, $8)
                 RETURNING *;
             `,
-            [name, address, price, description, url, imgUrl, city]
+            [name, address, price, description, url, imgUrl, city, dateId]
         )
         return dateExample
     } catch (error) {
