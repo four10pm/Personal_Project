@@ -1,18 +1,33 @@
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Navigation from './components/navigation.jsx'
 import Account from './components/account.jsx'
 import DateList from './components/homepage.jsx'
 import Contribute from './components/contribute.jsx'
 import Example from './components/examplepage.jsx'
-import { nameContext } from './components/context.jsx'
+import { nameContext, urlContext } from './components/context.jsx'
 import './App.css'
 import Cities from './components/cities.jsx'
 
 function App() {
   const [selectedDate, setSelectedDate] = useState(null)
   const [token, setToken] = useState(null)
+  const [cities, setCities] = useState([])
   const myName = useContext(nameContext)
+  const APIurl = useContext(urlContext)
+  
+  useEffect(() => {
+    async function getAllCities() {
+        try {
+            const response = await fetch(`${APIurl}/cities`)
+            const data = await response.json();
+            setCities(data)
+        } catch (error) {
+            console.log(error.message)
+        }
+    }
+    getAllCities();
+}, [])
 
   return (
     <>
@@ -25,9 +40,9 @@ function App() {
             <Route path="/" 
             element={<DateList selectedDate={selectedDate} setSelectedDate={setSelectedDate} token={token} /> } 
             />
-            <Route path="/cities" element={<Cities token={token} />} /> 
+            <Route path="/cities" element={<Cities token={token} cities={cities} />} /> 
             <Route path ="/account" element={<Account token={token} setToken={setToken} selectedDate={selectedDate} setSelectedDate={setSelectedDate}/>}/>
-            <Route path="/contribute" element={<Contribute token={token}/>}/>
+            <Route path="/contribute" element={<Contribute token={token} cities={cities} setCities={setCities} />}/>
           </Routes>
       </div>
     </>

@@ -41,7 +41,7 @@ function Contribute() {
                 })
             })
             const result=await response.json()
-            setMessage(result.message)
+            setMessage("Thank you for your contribution!")
         }
         catch (error) {
             setMessage(error.message)
@@ -68,7 +68,7 @@ function Contribute() {
                 })
             })
             const result=await response.json()
-            setMessage(result.message)
+            setMessage("Thank you for your contribution!")
         }
         catch (error) {
             setMessage(error.message)
@@ -110,7 +110,7 @@ const dateExampleForm =
 </label> <br/> 
 <label> Which city is it in? 
     <input id="city" type="integer" onChange={(event) => {setDateExampleCity(event.target.value)}} /> 
-</label> 
+</label> <br/>
 <label> What kind of date is it?
    <input id="type" onChange={(event)=>{setDateExampleType(event.target.value)}}/>  
 </label> <br/>
@@ -122,7 +122,7 @@ const dateExampleForm =
 </label> <br/>
 <label> Link to the website: 
     <input id="url" onChange={(event) => {setDateExampleUrl(event.target.value)}} />
-</label>
+</label> <br/> 
 <label> Add an image URL:
    <input id="imgUrl" onChange={(event)=>{setDateExampleImg(event.target.value)}}/> 
 </label> <br/>
@@ -130,17 +130,34 @@ const dateExampleForm =
 </form>) 
     
     return(
-    <>
-        <div className="options"> 
-            <h2> Add more date ideas! </h2>
-            <button onClick={() => {setDisplayedForm("dateListForm")}}> Add a date idea </button>
-            <button onClick={() => {setDisplayedForm("dateExampleForm")}}> Add a date example </button> 
-            <button> Add a city </button> 
-        </div>  
-        {displayedForm === "dateListForm" && dateListForm}
-        {displayedForm === "dateExampleForm" && dateExampleForm}
+    <div className="contributions"> 
+        <div className="options">
+            <div> 
+                <h2> Add more date ideas! </h2>
+                <button onClick={() => {setDisplayedForm("dateListForm")}}> Add a date idea </button>
+                <button onClick={() => {setDisplayedForm("dateExampleForm")}}> Add a date example </button> 
+                <button> Add a city </button> 
+            </div> 
+            <div>
+                <h2> Edit something </h2>
+                <button> Edit a date idea </button>
+                <button> Edit a date example </button> 
+                <button> Edit a city </button> 
+            </div> 
+            <div>
+                <h2> Delete something </h2>
+                <button> Delete a date idea </button>
+                <button> Delete a date example </button> 
+                <button> Delete a city </button> 
+            </div>  
+            </div> 
+            <div className="forms">
+                {displayedForm === "dateListForm" && dateListForm}
+                {displayedForm === "dateExampleForm" && dateExampleForm}
+            </div>
         {message}
-    </>
+        </div> 
+   
     )
 }
 
