@@ -3,40 +3,12 @@ import { nameContext, urlContext, cityContext } from './context'
 import Example from './examplepage'
 import '../styles/homepage.css'
 
-function DateList({ selectedDate, setSelectedDate }) {
+function DateList({ selectedDate, setSelectedDate, cities, setCities, dateTypes, setDateTypes, allDates, setAllDates }) {
     const APIurl = useContext(urlContext)
     const myCity = useContext(cityContext)
-    const [allDates, setAllDates] = useState([]);
-    const [dateTypes, setDateTypes] = useState([]);
     const [searchTerm, setSearchTerm] = useState("")
     const [searchResults, setSearchResults] = useState([])
-
-    useEffect(() => {
-        async function getAllDates() {
-            try {
-                const response = await fetch(`${APIurl}/dateList`)
-                const data = await response.json();
-                setAllDates(data)
-            } catch (error) {
-                console.log(error.message)
-            }
-        }
-        getAllDates();
-    }, [])
-
-    useEffect(() => {
-        async function getDateTypes() {
-            try {
-                const response = await fetch(`${APIurl}/dateList/types`)
-                const data = await response.json();
-                setDateTypes(data)
-            } catch (error) {
-                console.log(error.message)
-            }
-        }
-        getDateTypes();
-    }, [])
-
+    
     //TODO
     const datesFilterType = (e) => {
         e.preventDefault()

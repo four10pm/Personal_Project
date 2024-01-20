@@ -5,24 +5,23 @@ import '../styles/homepage.css'
 
 function Example ({selectedDate, setSelectedDate}) {
     const APIurl = useContext(urlContext) 
-    const [dateExamples, setDateExamples] = useState([])
+    const [dateExamplesbyId, setDateExamplesbyId] = useState([])
     
     useEffect(() => {
-        async function getDateExamples() {
+        async function getDateExamplesbyId() {
             try {
                 const response = await fetch(`${APIurl}/dateExamples/examples/${selectedDate}`)
                 const data = await response.json();
-                setDateExamples(data)
+                setDateExamplesbyId(data)
             } catch (error) {
                 console.log(error.message)
             }
         }
-        getDateExamples();
+        getDateExamplesbyId();
     }, [])
-    {console.log(dateExamples)}
 
     const exampleDatesList =
-        dateExamples.map((date) => {
+        dateExamplesbyId.map((date) => {
             return (
                 <div className="date example card">
                     <h3 className="title"> {date.name} </h3>
