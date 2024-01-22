@@ -1,0 +1,9 @@
+.contributions {
+  display: flex; 
+}
+
+.contributeform {
+    align-self: center;  
+    border: white 4px double; 
+    padding: 10px; 
+}

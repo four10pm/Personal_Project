@@ -37,7 +37,7 @@ function Contribute({dateTypes, setDateType, cities, setCities, allDates, setAll
                 </div>
             </div>
             <div className="forms">
-                <ContributeNew allDates={allDates} dateExamples={dateExamples} cities={cities} message={message} setMessage={setMessage} displayedForm={displayedForm}/> 
+                <ContributeNew allDates={allDates} cities={cities} message={message} setMessage={setMessage} displayedForm={displayedForm}/> 
                 <ContributeEdit allDates={allDates} dateExamples={dateExamples} cities={cities} message={message} setMessage={setMessage} displayedForm={displayedForm}/> 
                 <ContributeDelete allDates={allDates} dateExamples={dateExamples} cities={cities} message={message} setMessage={setMessage} displayedForm={displayedForm}/> 
                 {message && <p> {message} </p>}

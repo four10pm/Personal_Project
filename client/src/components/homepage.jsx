@@ -8,7 +8,10 @@ function DateList({ selectedDate, setSelectedDate, cities, setCities, dateTypes,
     const myCity = useContext(cityContext)
     const [searchTerm, setSearchTerm] = useState("")
     const [searchResults, setSearchResults] = useState([])
-    
+    const [datetoUpdate, setDatetoUpdate] = useState(null)
+    const [updatedDoneDate, setUpdatedDoneDate] = useState(null)
+    const [message, setMessage] = useState("")
+
     //TODO
     const datesFilterType = (e) => {
         e.preventDefault()
@@ -20,6 +23,7 @@ function DateList({ selectedDate, setSelectedDate, cities, setCities, dateTypes,
         setSearchResults(typeSearchResults);
         return searchResults;
     }
+
     const searchResultsList =
         searchResults.map((date) => {
             return (<>
@@ -29,15 +33,13 @@ function DateList({ selectedDate, setSelectedDate, cities, setCities, dateTypes,
                     <img className="dateimage" src={date.imgUrl} />
                     <p className="datedescription"> {date.description} </p>
                     <p className="price"> {date.price} </p>
-                    <p className="lastdone"> {date.lastdone} </p>
+                    {date.lastDone && <p className="lastdone"> The last time you did this was {date.newDoneDate } </p>}
                     {!date.atHome && myCity && <button className="dateButton" id={date.dateId} onClick={() => { setSelectedDate(date.dateId); setSearchTerm("") }}> In Your City </button>}
                     {!date.atHome && !myCity && <button className="dateButton" id={date.dateId} onClick={() => { setSelectedDate(date.dateId); setSearchTerm("") }}> See Examples </button>}
                 </div>
             </>
             )
         })
-
-    const datesFilterPrice = () => { return }
 
     const datesFilterDone = () => { return }
 
@@ -61,6 +63,37 @@ function DateList({ selectedDate, setSelectedDate, cities, setCities, dateTypes,
         </>)
     // TODO: add filter by price, by lastdone, by at home
 
+    const updateDoneDate = async (event) => {
+        event.preventDefault()
+        console.log(datetoUpdate)
+        console.log(updatedDoneDate)
+        try {
+            const response = await fetch(`${APIurl}/dateList/${datetoUpdate}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    lastDone: updatedDoneDate,
+                }),
+            })
+            const result = await response.json
+            setMessage("Updated!")
+        } catch (error) {
+            setMessage(error.message)
+        }
+    }
+    
+
+    const sanitize = () => {
+        allDates.map((date) => {
+            if (date.lastDone) {
+            const d = new Date(date.lastDone)
+            date.newDoneDate = d.toDateString()
+            return date;
+            }
+         })
+        return
+    }
+
     const allDatesList =
         allDates.map((date) => {
             return (
@@ -70,7 +103,14 @@ function DateList({ selectedDate, setSelectedDate, cities, setCities, dateTypes,
                     <img className="dateimage" src={date.imgUrl} />
                     <p className="datedescription"> {date.description} </p>
                     <p className="price"> {date.price} </p>
-                    <p className="lastdone"> {date.lastdone} </p>
+                    {date.lastDone && <p className="lastdone"> The last time you did this was {date.newDoneDate } </p>}
+                    <form className="doneform" onSubmit={(event) => {updateDoneDate(event)}} >
+                        <label name="dateDone"> I did this on
+                            <input type="date" onChange={(e)=>{setUpdatedDoneDate(e.target.value)}} /> 
+                        </label> 
+                        <button type="submit" onClick={()=>{setDatetoUpdate(date.dateId)}}> Save </button> 
+                        {message && <p> {message} </p>}
+                    </form>
                     {!date.atHome && myCity && <button className="dateButton" id={date.dateId} onClick={() => { setSelectedDate(date.dateId); setSearchTerm("") }}> In Your City </button>}
                     {!date.atHome && !myCity && <button className="dateButton" id={date.dateId} onClick={() => { setSelectedDate(date.dateId); setSearchTerm("") }}> See Examples </button>}
                 </div>
@@ -78,6 +118,7 @@ function DateList({ selectedDate, setSelectedDate, cities, setCities, dateTypes,
         })
 
     return (<>
+    {sanitize()}
         <div className="dateSearchBar"> {dateSearchbar} </div>
         {allDates.length === 0 && <p> No dates available! Log in to add ideas </p>}
         {selectedDate && <Example selectedDate={selectedDate} setSelectedDate={setSelectedDate} />}
