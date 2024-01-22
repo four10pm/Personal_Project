@@ -56,3 +56,22 @@ useEffect(() => {
     getDateTypes();
 }, [])
 }
+
+export const updateBeenThere = async (event) => {
+    event.preventDefault()
+    console.log(exampletoUpdate)
+    console.log(updateCheck)
+    try {
+        const response = await fetch(`${APIurl}/dateExamples/${exampletoUpdate}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                beenThere: updateCheck,
+            }),
+        })
+        const result = await response.json
+        setMessage("Updated!")
+    } catch (error) {
+        setMessage(error.message)
+    }
+}

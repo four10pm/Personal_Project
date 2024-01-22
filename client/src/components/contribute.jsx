@@ -23,12 +23,12 @@ function Contribute({dateTypes, setDateType, cities, setCities, allDates, setAll
                     <button onClick={() => { setDisplayedForm("dateExampleForm") }}> Add a date example </button>
                     <button onClick={() => { setDisplayedForm("cityForm") }}> Add a city </button>
                 </div>
-                <div>
+                {/* <div>
                     <h2> Edit something </h2>
                     <button onClick={() => { setDisplayedForm("editDateListForm") }}> Edit a date idea </button>
                     <button onClick={() => { setDisplayedForm("editDateExampleForm") }}> Edit a date example </button>
                     <button onClick={() => { setDisplayedForm("editCityForm") }}> Edit a city </button>
-                </div>
+                </div> */}
                 <div>
                     <h2> Delete something </h2>
                     <button onClick={() => { setDisplayedForm("deleteDateListForm") }}> Delete a date idea </button>
@@ -38,7 +38,7 @@ function Contribute({dateTypes, setDateType, cities, setCities, allDates, setAll
             </div>
             <div className="forms">
                 <ContributeNew allDates={allDates} cities={cities} message={message} setMessage={setMessage} displayedForm={displayedForm}/> 
-                <ContributeEdit allDates={allDates} dateExamples={dateExamples} cities={cities} message={message} setMessage={setMessage} displayedForm={displayedForm}/> 
+                {/* <ContributeEdit allDates={allDates} dateExamples={dateExamples} cities={cities} message={message} setMessage={setMessage} displayedForm={displayedForm}/>  */}
                 <ContributeDelete allDates={allDates} dateExamples={dateExamples} cities={cities} message={message} setMessage={setMessage} displayedForm={displayedForm}/> 
                 {message && <p> {message} </p>}
             </div>

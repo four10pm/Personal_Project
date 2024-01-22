@@ -109,7 +109,8 @@ export function DateExampleForm({ allDates, myCity, cities, message, setMessage 
             setMessage("Thank you for your contribution!")
         }
         catch (error) {
-            setMessage(error.message)
+            console.log(error.message)
+            setMessage("There's been an error! Please try again")
         }
     }
 
