@@ -1,14 +1,33 @@
+.searchBar {
+  display: flex; 
+  justify-content: space-evenly;
+  background-color: #242424;
+  padding: 5px;
+}
+
 .searchForm {
     display: flex;
     flex-direction: column; 
-    width: 25%;
+    width: 20%;
     text-align: center; 
+    color: white;
+    padding: 5px;
+}
+
+label {
+  margin: 2px; 
+}
+
+input {
+  margin: 2px;
 }
 
 .dateListArea {
     display: flex;
     flex-wrap: wrap;
     width: 100%; 
+    background-color: #242424;
+    color: white; 
   }
   
   .date {
@@ -16,13 +35,38 @@
     padding: 5px; 
     width: 25%;
     margin: 5px; 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #242424;
+    color: white; 
   }
 
   .dateimage {
     height: 150px; 
+    width: 75%;
   }
   
   .dateButton {
     background-color: lightgray; 
     color: black; 
+  }
+
+  .updateButton {
+    height: 20px;
+    line-height: 5px;
+    background-color: darkgray;
+    font-size: small;
+  }
+
+  .searchButton {
+    background-color: lightgray;
+    width: 50%;
+    align-self: center;
+  }
+
+  .resetButton {
+    background-color: lightgray;
+    height: 50%; 
+    align-self: center; 
   }

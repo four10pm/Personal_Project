@@ -57,7 +57,7 @@ function Cities({cities}) {
                         })}
                     </select>
                 </label>
-                <button name="filterbutton" className="searchbutton" type="submit"> Filter </button>
+                <button name="filterbutton" className="searchButton" type="submit"> Filter </button>
             </form>
         </>)
      
@@ -75,7 +75,7 @@ function Cities({cities}) {
                         <label name="dateDone"> Have you been here? 
                             <input type="checkbox" defaultChecked={date.beenThere} onChange={(e)=>{setUpdateCheck(e.target.checked)}} /> 
                         </label> 
-                        <button type="submit" onClick={()=>{setExampletoUpdate(date.exampleId)}}> Save </button> 
+                        <button type="submit" className="updateButton" onClick={()=>{setExampletoUpdate(date.exampleId)}}> Save </button> 
                     </form>
                     <a href={date.url} target="_blank"> Visit website </a>
                 </div>

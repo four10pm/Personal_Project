@@ -2,8 +2,11 @@
     display: flex; 
     justify-content: space-around; 
     vertical-align: middle;
+    background-color: lightgray;
+    color: #242424;
 }
 
 .navItem {
     align-self: center; 
+    color: #242424;
 }

@@ -6,7 +6,8 @@ const getAllDateExamples = async () => {
         const { rows }
          = await client.query(`
             SELECT *
-            FROM dateExamples;
+            FROM dateExamples
+            ORDER BY "exampleId";
         `)
         return rows
     } catch (error) {

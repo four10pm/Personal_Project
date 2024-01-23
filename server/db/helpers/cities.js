@@ -6,7 +6,8 @@ const getAllCities = async () => {
         const { rows }
          = await client.query(`
             SELECT *
-            FROM cities;
+            FROM cities
+            ORDER BY "cityId";
         `)
         return rows
     } catch (error) {

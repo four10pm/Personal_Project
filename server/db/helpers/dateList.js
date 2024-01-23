@@ -7,7 +7,8 @@ const getAllDateList = async () => {
         const { rows }
          = await client.query(`
             SELECT *
-            FROM dateList;
+            FROM dateList
+            ORDER BY "dateId"; 
         `)
         return rows
     } catch (error) {
