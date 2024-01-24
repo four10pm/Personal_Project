@@ -34,7 +34,7 @@ function App() {
             element={<DateList allDates={allDates} setAlLDates={setAllDates} selectedDate={selectedDate} setSelectedDate={setSelectedDate} dateExamples={dateExamples} setDateExamples={setDateExamples} token={token} dateTypes={dateTypes} cities={cities}  /> } 
             />
             <Route path="/cities" element={<Cities token={token} cities={cities} dateTypes={dateTypes} />} /> 
-            <Route path ="/account" element={<Account token={token} setToken={setToken} selectedDate={selectedDate} setSelectedDate={setSelectedDate}/>}/>
+            <Route path ="/account" element={<Account token={token} setToken={setToken} cities={cities}/>}/>
             <Route path="/contribute" element={<Contribute token={token} allDates={allDates} cities={cities} setCities={setCities} dateTypes={dateTypes} setDateTypes={setDateTypes} dateExamples={dateExamples} setDateExamples={setDateExamples} />}/>
           </Routes>
       </div>

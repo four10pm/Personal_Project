@@ -31,6 +31,52 @@ const getUserById = async (username) => {
     }
 }
 
+const getFavorites = async (userId) => {
+    try {
+        const {
+            rows
+        } = await client.query(
+            `
+            SELECT 
+                users."userId" as "userId",
+                dateList."dateId" as "dateId",
+                dateList.name as "dateName",
+                dateList."atHome" as "atHome",
+                dateList.type as type, 
+                dateList.price as price,
+                dateList.description as description,
+                dateList."imgUrl" as "imgUrl",
+                dateList."lastDone" as "lastDone"
+            FROM favorites
+            INNER JOIN users ON users."userId" = favorites."userId"
+            INNER JOIN dateList ON dateList."dateId" = favorites."dateId" 
+            WHERE users."userId" = ${userId};
+            `
+        )
+        return rows;
+    } catch(error) {
+        throw error
+    }
+}
+
+const addFavorites = async({userId, dateId}) => {
+    try {
+        const {
+            rows: [date]
+        } = await client.query(
+            `
+            INSERT INTO favorites("userId", "dateId")
+            values ($1, $2) 
+            RETURNING *;
+            `,
+            [userId, dateId]
+        )
+    } catch (error) {
+        throw error
+    }
+}
+
+
 const createUser = async ({ name, username, password, city }) => {
     try {
         const {
@@ -59,7 +105,7 @@ async function updateUser(userId, fields) {
 
         if (util.dbFields(toUpdate).insert.length > 0) {
             const { rows } = await client.query(`
-            UPDATE user
+            UPDATE users
             SET ${util.dbFields(toUpdate).insert}
             WHERE "userId"=${userId}
             RETURNING *;
@@ -82,4 +128,4 @@ async function deleteUser(userId) {
     }
 }
 
-module.exports = { getAllUsers, getUserById, createUser, updateUser, deleteUser } 
+module.exports = { getAllUsers, getUserById, getFavorites, addFavorites, createUser, updateUser, deleteUser } 

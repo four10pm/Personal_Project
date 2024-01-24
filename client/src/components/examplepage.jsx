@@ -46,6 +46,8 @@ function Example ({selectedDate, setSelectedDate}) {
             return (
                 <div className="date example card">
                     <h3 className="title"> {date.name} </h3>
+                    {!date.favorite && <button className="favoritebutton"> Add to favorites </button>}
+                    {date.favorite && <button className="favoritebutton"> Remove from favorites </button>} 
                     <p className="address"> {date.address} </p>
                     <p className="city"> {date.city}, {date.state} </p>
                     <img className="dateimage" src={date.imgUrl} />

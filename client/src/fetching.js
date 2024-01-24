@@ -76,13 +76,3 @@ export const updateBeenThere = async (event) => {
     }
 }
 
-export const getCityById = async (cityId, {setMyCity, myCity}) => {
-        try {
-            const response = await fetch(`${APIurl}/cities/${cityId}`)
-            const data = await response.json();
-            setMyCity(data)
-        } catch (error) {
-            console.log(error.message)
-        }
-    getCityById();
-}

@@ -178,6 +178,8 @@ function DateList({ selectedDate, setSelectedDate, cities, setCities, dateTypes,
             return (
                 <div className="date card">
                     <h3 className="title"> {date.name} </h3>
+                    {!date.favorite && <button className="favoritebutton"> Add to favorites </button>}
+                    {date.favorite && <button className="favoritebutton"> Remove from favorites </button>} 
                     <p className="datetype"> {date.type} </p>
                     <img className="dateimage" src={date.imgUrl} />
                     <p className="datedescription"> {date.description} </p>
