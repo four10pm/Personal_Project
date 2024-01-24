@@ -14,7 +14,7 @@ const getAllUsers = async () => {
     }
 }
 
-const getUserById = async (userId) => {
+const getUserById = async (username) => {
     try {
         const {
             rows: [user]
@@ -22,7 +22,7 @@ const getUserById = async (userId) => {
             `
                 SELECT *
                 FROM users
-                WHERE "userId" =${userId};
+                WHERE username = '${username}';
             `
         )
         return user;
@@ -31,17 +31,17 @@ const getUserById = async (userId) => {
     }
 }
 
-const createUser = async ({ name, username, city }) => {
+const createUser = async ({ name, username, password, city }) => {
     try {
         const {
             rows: [user],
         } = await client.query (
             `
-                INSERT INTO users(name, username, city)
-                VALUES($1, $2, $3)
+                INSERT INTO users(name, username, password, city)
+                VALUES($1, $2, $3, $4)
                 RETURNING *;
             `,
-            [name, username, city]
+            [name, username, password, city]
         )
         return user
     } catch (error) {

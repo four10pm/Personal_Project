@@ -53,7 +53,7 @@ async function createTables() {
             "userId" SERIAL PRIMARY KEY,
             name VARCHAR(100) NOT NULL, 
             username VARCHAR(25) UNIQUE NOT NULL,
-            token VARCHAR(100),
+            password VARCHAR(255),
             city INTEGER REFERENCES cities("cityId"),
             "latestActivity" INTEGER REFERENCES dateList("dateId")
         );
@@ -91,7 +91,7 @@ async function createInitialData() {
             ('Portland Art Museum', '1219 SW Park Ave', '$$', 'The largest art museum in Oregon!', 'https://portlandartmuseum.org/', 'https://upload.wikimedia.org/wikipedia/commons/1/1d/Portland_Art_Museum%2C_Portland%2C_Oregon.jpg', FALSE, 2, 1)
         `);
         await client.query(`
-            INSERT INTO users (name, username, token, city)
+            INSERT INTO users (name, username, password, city)
             VALUES 
                 ('Paulina', 'p@f.com', '321', 2)
             `);

@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from "react";
 import { urlContext } from "./components/context";
 
-export default function Fetching ({allDates, setAllDates, dateExamples, setDateExamples, dateTypes, setDateTypes, cities, setCities, selectedDate, setSelectedDate}) {
+export default function Fetching ({allDates, setAllDates, dateExamples, setDateExamples, dateTypes, setDateTypes, cities, setCities, selectedDate, setSelectedDate, cityDates, setCityDates}) {
 const APIurl = useContext(urlContext)
 
 useEffect(() => {
@@ -74,4 +74,15 @@ export const updateBeenThere = async (event) => {
     } catch (error) {
         setMessage(error.message)
     }
+}
+
+export const getCityById = async (cityId, {setMyCity, myCity}) => {
+        try {
+            const response = await fetch(`${APIurl}/cities/${cityId}`)
+            const data = await response.json();
+            setMyCity(data)
+        } catch (error) {
+            console.log(error.message)
+        }
+    getCityById();
 }

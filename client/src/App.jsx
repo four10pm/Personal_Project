@@ -25,6 +25,7 @@ function App() {
     <Fetching setCities={setCities} cities={setCities} dateTypes={dateTypes} setDateTypes={setDateTypes} allDates={allDates} setAllDates={setAllDates} dateExamples={dateExamples} setDateExamples={setDateExamples} selectedDate={selectedDate} setSelectedDat={setSelectedDate} />
       <div className="pageTop" myName={myName}>
         <h1> Let's Plan a Date! </h1>
+        
       </div>
       <div className="App" myName={myName}>
           <Navigation /> 

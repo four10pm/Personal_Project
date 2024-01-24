@@ -1,30 +1,60 @@
-import React, { useEffect } from 'react'
-import { useState } from 'react'
-import { urlContext } from './context';
+import React, { useEffect, useState, useContext } from 'react'
+import { urlContext, nameContext } from './context';
+import { getCityById } from '../fetching';
 
-function Login () {
-    const login = async (username, password) => {
+function Login ({token, setToken, user, setUser, setMyCity, myCity}) {
+    const APIurl = useContext(urlContext)
+    const [message, setMessage] = useState("")
+    const [username, setUsername] = useState("")
+    const [password, setPassword] = useState("")
+    const [myName, setMyName] = useState("")
+
+    const login = async (event) => {
+        event.preventDefault()
+        console.log(username, password)
         try {
-            const response = await fetch(`${urlContext}/users`, {
+            const response = await fetch(`${APIurl}/users/login`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    username,
-                    password
+                    username: username,
+                    password: password
                 })
             });
             const result = await response.json();
-            console.log(result);
+            console.log("result", result);
+            setToken(result.token)
+            setUser(result.user)
+            setMyName(result.user.name)
+            getCityById(result.user.city)
             return result
-        } catch (err) {
-            console.error(err);
+        } catch (error) {
+            setMessage(error.message);
         }
     }
     
 
-    return
+    return (
+        <>
+        < nameContext.Provider value={myName} > 
+            <form className="loginForm" method="post" onSubmit={login}>
+                <p className="message please"> <em> Please log in: </em></p>
+                <label> Email:
+                    <input name="email" id="LIemailfield" onChange={(event) => { setUsername(event.target.value) }} />
+                </label>
+                <label> Password:
+                    <input name="password" id="LIpasswordfield" type="password" onChange={(event) => { setPassword(event.target.value) }} />
+                </label>
+                <button name="loginButton" id="loginButton"> Login </button>
+            </form>
+            <div>
+                {message && (message !== 'Login successful!' && message !== 'Registration succesful!') && <p> {message} </p> }
+                {message === 'Login successful' && <p id="loginsuccess">Login successful!</p>}
+            </div>
+            </nameContext.Provider>
+        </>)
 }
 
 export default Login; 
