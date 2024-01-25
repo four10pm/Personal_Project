@@ -3,7 +3,7 @@ import { nameContext, urlContext, cityContext } from './context'
 import Example from './examplepage'
 import '../styles/homepage.css'
 
-function DateList({ selectedDate, setSelectedDate, cities, setCities, dateTypes, setDateTypes, allDates, setAllDates }) {
+function DateList({ selectedDate, setSelectedDate, dateTypes, allDates, favorites, token, user }) {
     const APIurl = useContext(urlContext)
     const myCity = useContext(cityContext)
     const [searchTerm, setSearchTerm] = useState("")
@@ -12,8 +12,8 @@ function DateList({ selectedDate, setSelectedDate, cities, setCities, dateTypes,
     const [updatedDoneDate, setUpdatedDoneDate] = useState(null)
     const [message, setMessage] = useState("")
     const [searchMessage, setSearchMessage] = useState("")
+    const favs = []
 
-    //TODO
     const datesFilterType = (e) => {
         e.preventDefault()
         console.log(searchTerm)
@@ -161,7 +161,47 @@ function DateList({ selectedDate, setSelectedDate, cities, setCities, dateTypes,
         }
     }
 
+    const addFavorites = async (id) => {
+        console.log(id)
+        console.log(user.userId)
+        try {
+            const response = await fetch(`${APIurl}/users/${user.userId}/favorites`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userId: user.userId,
+                    dateId: id
+                })
+            })
+            const result = await response.json()
+            setMessage("Added to your favorites!")
+        }
+        catch (error) {
+            setMessage(error.message)
+        }
+    }
 
+    const deleteFavorites = async (id) => {
+        console.log(id)
+        console.log(user.userId)
+        try { 
+            const response = await fetch(`${APIurl}/users/${user.userId}/favorites/` , {
+                method: "DELETE",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userId: user.userId,
+                    dateId: id
+                })
+            });
+            setMessage("Removed from favorites!")
+        } catch (error) {
+            setMessage(error.message)
+        }}
+ 
     const sanitize = () => {
         allDates.map((date) => {
             if (date.lastDone) {
@@ -176,10 +216,13 @@ function DateList({ selectedDate, setSelectedDate, cities, setCities, dateTypes,
     const allDatesList =
         allDates.map((date) => {
             return (
-                <div className="date card">
+                <div className="date card" id={date.dateId}>
                     <h3 className="title"> {date.name} </h3>
-                    {!date.favorite && <button className="favoritebutton"> Add to favorites </button>}
-                    {date.favorite && <button className="favoritebutton"> Remove from favorites </button>} 
+                    {favorites.map((favorite) => {
+                        if (favorite.dateId === date.dateId) (favs.push(date.dateId))
+                    })}
+                    {favs.includes(date.dateId) ? <button className="favoritebutton" id={date.dateId} onClick={()=>{deleteFavorites(date.dateId)}}> Remove from favorites </button> :
+                    <button className="favoritebutton" id={date.dateId} onClick={()=>{addFavorites(date.dateId)}}> Add to favorites </button>}
                     <p className="datetype"> {date.type} </p>
                     <img className="dateimage" src={date.imgUrl} />
                     <p className="datedescription"> {date.description} </p>
@@ -200,6 +243,7 @@ function DateList({ selectedDate, setSelectedDate, cities, setCities, dateTypes,
 
     return (<>
         {sanitize()}
+        {console.log(favorites)}
         <div className="dateSearchBar"> {dateSearchbar} </div>
         {allDates.length === 0 && <p> No dates available! Log in to add ideas </p>}
         {selectedDate && <Example selectedDate={selectedDate} setSelectedDate={setSelectedDate} />}

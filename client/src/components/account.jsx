@@ -3,15 +3,12 @@ import { urlContext, nameContext } from './context';
 import Login from './login';
 import Register from './register';
 
-function Account({ token, setToken, cities }) {
-    const [user, setUser] = useState({})
+function Account({ token, setToken, cities, favorites, setFavorites, user, setUser }) {
     const APIurl = useContext(urlContext)
     const myName = useContext(nameContext)
     const [myCity, setMyCity] = useState({})
     const [newCityId, setNewCityId] = useState(null)
     const [message, setMessage] = useState("")
-    const [favorites, setFavorites] = useState([])
-    const [favs, setFavs] = useState(false)
 
     const getCityById = async () => {
         if (myCity.name) { return myCity }
@@ -64,13 +61,31 @@ function Account({ token, setToken, cities }) {
         getFavorites();
     }, [token])
 
+    const deleteFavorites = async (id) => {
+        console.log(id)
+        console.log(user.userId)
+        try { 
+            const response = await fetch(`${APIurl}/users/${user.userId}/favorites/` , {
+                method: "DELETE",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userId: user.userId,
+                    dateId: id
+                })
+            });
+            setMessage("Removed from favorites!")
+        } catch (error) {
+            setMessage(error.message)
+        }}
+
     const favoritesList =
     favorites.map((date) => {
         return (
             <div className="date card">
                 <h3 className="title"> {date.dateName} </h3>
-                {!date.favorite && <button className="favoritebutton"> Add to favorites </button>}
-                {date.favorite && <button className="favoritebutton"> Remove from favorites </button>}
+                <button className="favoritebutton" id={date.dateId} onClick={()=>{deleteFavorites(date.dateId)}}> Remove from favorites </button>
                 <p className="datetype"> {date.type} </p>
                 <img className="dateimage" src={date.imgUrl} />
                 <p className="datedescription"> {date.description} </p>

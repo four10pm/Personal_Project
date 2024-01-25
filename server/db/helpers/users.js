@@ -50,8 +50,9 @@ const getFavorites = async (userId) => {
             FROM favorites
             INNER JOIN users ON users."userId" = favorites."userId"
             INNER JOIN dateList ON dateList."dateId" = favorites."dateId" 
-            WHERE users."userId" = ${userId};
-            `
+            WHERE users."userId" = $1;
+            `,
+            [userId]
         )
         return rows;
     } catch(error) {
@@ -62,7 +63,7 @@ const getFavorites = async (userId) => {
 const addFavorites = async({userId, dateId}) => {
     try {
         const {
-            rows: [date]
+            rows
         } = await client.query(
             `
             INSERT INTO favorites("userId", "dateId")
@@ -71,6 +72,24 @@ const addFavorites = async({userId, dateId}) => {
             `,
             [userId, dateId]
         )
+        return rows;
+    } catch (error) {
+        throw error
+    }
+}
+
+const deleteFavorites = async({userId, dateId}) => {
+    try {
+        const {
+            rows: [favorite]
+        } = await client.query(
+            `
+            DELETE FROM favorites 
+            WHERE "userId"=$1 AND "dateId"=$2
+            `,
+            [userId, dateId]
+        )
+        return favorite;
     } catch (error) {
         throw error
     }
@@ -121,11 +140,17 @@ async function updateUser(userId, fields) {
 
 async function deleteUser(userId) {
     try {
-        const { rows } = await client.query('DELETE FROM users WHERE "userId"=$1 RETURNING *', [userId]);
+        const { 
+            rows 
+        } = await client.query(
+            `DELETE FROM users 
+            WHERE "userId"=$1 
+            RETURNING *`
+            , [userId]);
         return rows[0];
     } catch (err) {
         throw err
     }
 }
 
-module.exports = { getAllUsers, getUserById, getFavorites, addFavorites, createUser, updateUser, deleteUser } 
+module.exports = { getAllUsers, getUserById, getFavorites, addFavorites, deleteFavorites, createUser, updateUser, deleteUser } 

@@ -7,7 +7,7 @@ const { JWT_SECRET } = require("../secrets");
 const SALT_ROUNDS = 2;
 
 // const { authRequired } = require('./utils');
-const { getAllUsers, getUserById, getFavorites, addFavorites, createUser, updateUser, deleteUser } = require('../db/helpers/users');
+const { getAllUsers, getUserById, getFavorites, addFavorites, deleteFavorites, createUser, updateUser, deleteUser} = require('../db/helpers/users');
 
 router.get('/', async (req, res, next) => {
     try {
@@ -27,7 +27,7 @@ router.get('/:id', async (req, res, next) => {
     }
 })
 
-router.get('/:id/favorites', async(req, res,next) => {
+router.get('/:id/favorites', async(req, res, next) => {
     try {
         const favorites=await getFavorites(req.params.id);
         res.send(favorites)
@@ -38,7 +38,16 @@ router.get('/:id/favorites', async(req, res,next) => {
 
 router.post('/:id/favorites', async(req, res, next) => {
     try {
-        const favorites=await addFavorites(req.params.id, req.body);
+        const favorites=await addFavorites(req.body)
+        res.send(favorites)
+    } catch (error) {
+        next(error)
+    }
+})
+
+router.delete('/:id/favorites/', async(req, res, next) => {
+    try {
+        const favorites=await deleteFavorites(req.body)
         res.send(favorites)
     } catch (error) {
         next(error)

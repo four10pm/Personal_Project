@@ -3,9 +3,8 @@ import { Link } from 'react-router-dom';
 import { nameContext } from './context'
 import '../styles/navigation.css'
 
-function Navigation () {
+function Navigation ({token}) {
     const [selectedDate, setSelectedDate] = useState(null)
-    const [token, setToken] = useState(null)
     const myName = useContext(nameContext)
 
     return (
@@ -16,6 +15,7 @@ function Navigation () {
             <Link to="/contribute" className="navItem"> Contribute </Link> 
             {<p className="welcome navItem"> Hello, {myName}! </p>}
             {!token && <p className="welcome navItem"> Please log in! </p>}
+            {token && <p className="welcome NavItem"> You're logged in! </p>}
         </div> 
     )
 }
