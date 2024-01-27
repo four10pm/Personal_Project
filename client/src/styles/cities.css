@@ -1,8 +1,14 @@
 .cityArea {
     background-color: #242424;
+    margin-top: 0px;
 }
 
 #citysearch {
     margin: 0 auto;
+    padding: 5px;
+}
+
+.searchMessage { 
+    color: white; 
     padding: 5px;
 }

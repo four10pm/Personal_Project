@@ -30,13 +30,13 @@ function App() {
             <h1> Let's Plan a Date! </h1>
           </div>
           <div className="App">
-            <Navigation />
+            <Navigation  />
             <Routes>
               <Route path="/"
-                element={<Homepage allDates={allDates} setAlLDates={setAllDates} dateExamples={dateExamples} setDateExamples={setDateExamples} token={token} dateTypes={dateTypes} cities={cities} selectedDate={selectedDate} setSelectedDate={setSelectedDate}/>}
+                element={<Homepage allDates={allDates} setAlLDates={setAllDates} dateExamples={dateExamples} setDateExamples={setDateExamples} token={token} dateTypes={dateTypes} cities={cities}/>}
               />
               <Route path="/cities" element={<Cities  cities={cities} dateTypes={dateTypes} />} />
-              <Route path="/account" element={<Account setFavorites={setFavorites} favorites={favorites} setToken={setToken} cities={cities} user={user} setUser={setUser} selectedDate={selectedDate} setSelectedDate={setSelectedDate}/>} />
+              <Route path="/account" element={<Account setFavorites={setFavorites} favorites={favorites} setToken={setToken} cities={cities} user={user} setUser={setUser} />} />
               <Route path="/contribute" element={<Contribute allDates={allDates} cities={cities} setCities={setCities} dateTypes={dateTypes} setDateTypes={setDateTypes} dateExamples={dateExamples} setDateExamples={setDateExamples} />} />
             </Routes>
           </div>

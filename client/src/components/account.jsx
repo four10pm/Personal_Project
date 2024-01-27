@@ -6,13 +6,14 @@ import DateList from './datelist';
 import Example from './examplepage';
 import '../styles/account.css'
 
-function Account({ cities, favorites, setFavorites, user, setUser, setToken, selectedDate, setSelectedDate }) {
+function Account({ cities, favorites, setFavorites, user, setUser, setToken}) {
     const APIurl = useContext(urlContext)
     const userInfo = useContext(userContext)
     const myToken = useContext(tokenContext)
     const [cityInfo, setCityInfo] = useState({})
     const [newCityId, setNewCityId] = useState(null)
     const [message, setMessage] = useState("")
+    const [selectedDate, setSelectedDate] = useState("")
 
     const getCityById = async () => {
         if (cityInfo.name) { return cityInfo }

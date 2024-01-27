@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import { userContext, tokenContext } from './context'
 import '../styles/navigation.css'
 
-function Navigation ({token}) {
-    const [selectedDate, setSelectedDate] = useState(null)
+function Navigation ({token, selectedDate, setSelectedDate}) {
+    
     const userInfo = useContext(userContext)
     const myName = userInfo.name
     const myToken = useContext(tokenContext)
@@ -12,7 +12,7 @@ function Navigation ({token}) {
     return (
         <div className="navbar"> 
         {console.log("Nav", userInfo)}
-            <Link to="/" className="navItem navLink"> Date Ideas </Link>
+            <Link to="/" className="navItem navLink" > Date Ideas </Link>
             <Link to="/cities" className="navItem navLink"> City Dates </Link> 
             <Link to="/account" className="navItem navLink"> Account </Link>
             <Link to="/contribute" className="navItem navLink"> Contribute </Link> 

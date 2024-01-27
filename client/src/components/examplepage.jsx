@@ -45,7 +45,8 @@ function Example ({selectedDate, setSelectedDate}) {
     // }
 
     const exampleDatesList = 
-        dateExamplesbyId.map((date) => {
+       
+        dateExamplesbyId.filter((date) => !myCity || date.cityId === myCity).map((date) => {
             return (
                 <div className="date example card">
                     <h3 className="title"> {date.name} </h3>
@@ -64,10 +65,6 @@ function Example ({selectedDate, setSelectedDate}) {
                 </div>
             )
         })
-    
-        
-        
-
 
     return (
         <>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { urlContext, tokenContext } from './context';
-import Fetching from '../fetching';
+import '../styles/account.css'
 
 function Login({ token, setToken, user, setUser}) {
     const APIurl = useContext(urlContext)
@@ -45,7 +45,7 @@ function Login({ token, setToken, user, setUser}) {
                     <label> Password:
                         <input name="password" id="LIpasswordfield" type="password" onChange={(event) => { setPassword(event.target.value) }} />
                     </label>
-                    <button name="loginButton" id="loginButton"> Login </button>
+                    <button className="loginButton" id="loginButton"> Login </button>
                 </form>
                 <div>
                     {message && (message !== 'Login successful!' && message !== 'Registration succesful!') && <p> {message} </p>}

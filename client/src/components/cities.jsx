@@ -21,6 +21,8 @@ function Cities() {
                 const response = await fetch(`${APIurl}/dateExamples/cities/${city}`)
                 const data = await response.json();
                 setCityDates(data)
+                if (data.length === 0) {setMessage("No dates available for this city yet!")
+                    } else {setMessage("")}
             } catch (error) {
                 console.log(error.message)
             }
@@ -89,7 +91,8 @@ function Cities() {
             {myCity &&  <p> Your city is {myCity.name}, {myCity.state} </p>}
             {<p> Please select a city </p> && cityFilter }
             {<div className="dateListArea"> {cityDatesList} </div> }
-            {message && <p> {message} </p>}
+            {message && <div className="searchMessage"> {message} </div>}
+            {/* {cityDates && cityDates.length === 0 && <p className="searchMessage"> No dates for this city yet! </p> } */}
         </div>
     )
 }

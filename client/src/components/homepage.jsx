@@ -6,7 +6,7 @@ import { sanitize, addFavorites, deleteFavorites } from '../fetching'
 import DateList from './datelist'
 
 
-function HomePage({ dateTypes, allDates, selectedDate, setSelectedDate }) {
+function HomePage({ dateTypes, allDates }) {
     const myToken = useContext(tokenContext)
     const userInfo = useContext(userContext)
     const favorites = useContext(favoritesContext)
@@ -17,6 +17,7 @@ function HomePage({ dateTypes, allDates, selectedDate, setSelectedDate }) {
     const [searchResults, setSearchResults] = useState([])
     const [message, setMessage] = useState("")
     const [searchMessage, setSearchMessage] = useState("")
+    const [selectedDate, setSelectedDate] = useState("")
     
     const datesFilter = (e, search) => {
         e.preventDefault()
