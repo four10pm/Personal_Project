@@ -1,0 +1,50 @@
+.login {
+    background-color: #242424;
+    color: white; 
+    display: flex; 
+    padding: 5px;
+    justify-content: space-around;
+}
+
+.login > form {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+label {
+    align-self: end;
+}
+
+button {
+    margin: 5px; 
+    background-color: #ffe6ea;
+}
+
+.accountInfo {
+    background-color: #242424;
+    color: white; 
+    padding: 5px;
+}
+
+.accountCity {
+    display: flex; 
+    width: 50%;
+    justify-content: space-between; 
+}
+
+#choosecity {
+    margin: 0px auto;
+}
+
+.account {
+    display: flex; 
+}
+
+.accountDetails {
+    color: #ffccd5;
+}
+
+.loginButton {
+    background-color: #ffe6ea;
+}
