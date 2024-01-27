@@ -2,11 +2,16 @@
     display: flex; 
     justify-content: space-around; 
     vertical-align: middle;
-    background-color: lightgray;
+    background-color: #ffe6ea;
     color: #242424;
+    margin-top: 0px;
 }
 
 .navItem {
     align-self: center; 
     color: #242424;
+}
+
+.navLink {
+    font-weight: bold;
 }

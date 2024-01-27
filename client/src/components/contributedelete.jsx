@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react"
-import { urlContext, cityContext } from "./context";
+import { urlContext } from "./context";
 
 export default function ContributeDelete({ displayedForm, allDates, cities, dateExamples, message, setMessage }) {
     return (

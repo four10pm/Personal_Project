@@ -1,21 +1,24 @@
-import React, { useEffect, useContext, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom';
-import { nameContext } from './context'
+import { userContext, tokenContext } from './context'
 import '../styles/navigation.css'
 
 function Navigation ({token}) {
     const [selectedDate, setSelectedDate] = useState(null)
-    const myName = useContext(nameContext)
+    const userInfo = useContext(userContext)
+    const myName = userInfo.name
+    const myToken = useContext(tokenContext)
 
     return (
         <div className="navbar"> 
-            <Link to="/" className="navItem"> Date Ideas </Link>
-            <Link to="/cities" className="navItem"> City Dates </Link> 
-            <Link to="/account" className="navItem"> Account </Link>
-            <Link to="/contribute" className="navItem"> Contribute </Link> 
-            {<p className="welcome navItem"> Hello, {myName}! </p>}
-            {!token && <p className="welcome navItem"> Please log in! </p>}
-            {token && <p className="welcome NavItem"> You're logged in! </p>}
+        {console.log("Nav", userInfo)}
+            <Link to="/" className="navItem navLink"> Date Ideas </Link>
+            <Link to="/cities" className="navItem navLink"> City Dates </Link> 
+            <Link to="/account" className="navItem navLink"> Account </Link>
+            <Link to="/contribute" className="navItem navLink"> Contribute </Link> 
+            {<p className="welcome navItem"> Hello, {userInfo.name}! </p>}
+            {!myToken && <p className="welcome navItem"> Please log in! </p>}
+            {myToken && <p className="welcome NavItem"> You're logged in! </p>}
         </div> 
     )
 }

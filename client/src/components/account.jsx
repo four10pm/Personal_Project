@@ -1,23 +1,27 @@
-import React, { useEffect, useContext, useState } from 'react'
-import { urlContext, nameContext } from './context';
+import React, { useEffect, useContext, useState, createContext } from 'react'
+import { urlContext, userContext, tokenContext, favoritesContext, selectedDateContext } from './context';
 import Login from './login';
 import Register from './register';
+import DateList from './datelist';
+import Example from './examplepage';
+import '../styles/account.css'
 
-function Account({ token, setToken, cities, favorites, setFavorites, user, setUser }) {
+function Account({ cities, favorites, setFavorites, user, setUser, setToken, selectedDate, setSelectedDate }) {
     const APIurl = useContext(urlContext)
-    const myName = useContext(nameContext)
-    const [myCity, setMyCity] = useState({})
+    const userInfo = useContext(userContext)
+    const myToken = useContext(tokenContext)
+    const [cityInfo, setCityInfo] = useState({})
     const [newCityId, setNewCityId] = useState(null)
     const [message, setMessage] = useState("")
 
     const getCityById = async () => {
-        if (myCity.name) { return myCity }
+        if (cityInfo.name) { return cityInfo }
         console.log(user.city)
         try {
             const response = await fetch(`${APIurl}/cities/${user.city}`)
             const data = await response.json();
             console.log(data)
-            setMyCity(data)
+            setCityInfo(data)
             return data;
         } catch (error) {
             console.log(error.message)
@@ -52,20 +56,19 @@ function Account({ token, setToken, cities, favorites, setFavorites, user, setUs
                 const result = await response.json()
                 console.log(result)
                 setFavorites(result)
-                setFavs(true)
                 return result
             } catch (error) {
                 console.log("getFavorites", error, error.message)
             }
         }
         getFavorites();
-    }, [token])
+    }, [myToken])
 
     const deleteFavorites = async (id) => {
         console.log(id)
         console.log(user.userId)
-        try { 
-            const response = await fetch(`${APIurl}/users/${user.userId}/favorites/` , {
+        try {
+            const response = await fetch(`${APIurl}/users/${user.userId}/favorites/`, {
                 method: "DELETE",
                 headers: {
                     'Content-Type': 'application/json'
@@ -78,62 +81,54 @@ function Account({ token, setToken, cities, favorites, setFavorites, user, setUs
             setMessage("Removed from favorites!")
         } catch (error) {
             setMessage(error.message)
-        }}
-
-    const favoritesList =
-    favorites.map((date) => {
-        return (
-            <div className="date card">
-                <h3 className="title"> {date.dateName} </h3>
-                <button className="favoritebutton" id={date.dateId} onClick={()=>{deleteFavorites(date.dateId)}}> Remove from favorites </button>
-                <p className="datetype"> {date.type} </p>
-                <img className="dateimage" src={date.imgUrl} />
-                <p className="datedescription"> {date.description} </p>
-                <p className="price"> {date.price} </p>
-                {date.lastDone && <p className="lastdone"> The last time you did this was {date.newDoneDate} </p>}
-                <form className="doneform" onSubmit={(event) => { updateDoneDate(event) }} >
-                    <label name="dateDone"> I did this on
-                        <input type="date" onChange={(e) => { setUpdatedDoneDate(e.target.value) }} />
-                    </label>
-                    <button type="submit" className="updateButton" onClick={() => { setDatetoUpdate(date.dateId) }}> Save </button>
-                    {message && <p> {message} </p>}
-                </form>
-                {!date.atHome && myCity && <button className="dateButton" id={date.dateId} onClick={() => { setSelectedDate(date.dateId); setSearchTerm("") }}> In Your City </button>}
-                {!date.atHome && !myCity && <button className="dateButton" id={date.dateId} onClick={() => { setSelectedDate(date.dateId); setSearchTerm("") }}> See Examples </button>}
-            </div>
-        )
-    })
+        }
+    }
 
     return (
         <div>
-            <div>
-                <Login setToken={setToken} token={token} user={user} setUser={setUser} setMyCity={setMyCity} myCity={myCity} />
-                <Register setToken={setToken} token={token} user={user} setUser={setUser} />
+            <div className="login">
+                {!myToken && <Login user={user} setUser={setUser} setToken={setToken} />}
+                {!myToken && <Register user={user} setUser={setUser} setToken={setToken}/>}
             </div>
-            {token &&
-                <div>
-                    <p> Welcome {myName}! </p>
-                    {getCityById() && <p> Your city is {myCity.name}, {myCity.state} </p>}
-                    <form name="chooseCity" className="contributeform" onSubmit={(event) => { changeCity(event) }}>
-                        <label> Would you like to change it?
-                            <select required name="editCity" onChange={(e) => { setNewCityId(parseInt(e.target.value)) }}>
-                                <option value={""}> Select </option>
-                                {cities.map((city) => {
-                                    return (
-                                        <option value={city.cityId}> {city.name}, {city.state} </option>
-                                    )
-                                })}
-                            </select>
-                        </label> <br />
-                        <button type="submit"> Submit </button> <br />
-                        {message}
-                    </form>
-                    <div className="favoritesList">
-                        <p> Your favorite dates: </p>
-                        {favorites.length === 0 && (<p> Go find some new date ideas! </p>)}
-                        {favorites.length > 0 && favoritesList}
-                    </div>
-                </div>}
+            <favoritesContext.Provider value={favorites}>
+                {myToken &&
+                    <div className="accountInfo">
+                        <div className="account">
+                            <p> Welcome &nbsp; </p> 
+                            <p className="accountDetails"> {userInfo.name}! </p></div>
+                        <div className="accountCity">
+                        {!userInfo.city && <p> Please choose a city! </p>}
+                        {userInfo.city && getCityById() &&
+                            <div className="account"> 
+                                <p> Your city is &nbsp; </p> 
+                                <p className="accountDetails"> {cityInfo.name}, {cityInfo.state} </p> 
+                            </div> }
+                        <form id="chooseCity" className="contributeform" onSubmit={(event) => { changeCity(event) }}>
+                            <label> Update your city: &nbsp; 
+                                <select required name="editCity" onChange={(e) => { setNewCityId(parseInt(e.target.value)) }}>
+                                    <option value={""}> Select </option>
+                                    {cities.map((city) => {
+                                        return (
+                                            <option value={city.cityId}> {city.name}, {city.state} </option>
+                                        )
+                                    })}
+                                </select>
+                            </label> <br />
+                            <button type="submit" className="submitButton"> Submit </button> <br />
+                            {message}
+                        </form>
+                        </div>
+                        <div className="favoritesList">
+                            <p> Your favorite dates: </p>
+                            {console.log(favorites)}
+                            {!selectedDate && favorites.length === 0 && (<p> Go find some new date ideas! </p>) &&
+                                <button href="/"> See All Dates </button>}
+                            {!selectedDate && favorites.length > 0 && <DateList dates={favorites} setSelectedDate={setSelectedDate} selectedDate={selectedDate} />}
+                            {selectedDate && <Example selectedDate={selectedDate} setSelectedDate={setSelectedDate} /> }
+                        </div>
+
+                    </div>}
+            </favoritesContext.Provider>
         </div>
 
     )

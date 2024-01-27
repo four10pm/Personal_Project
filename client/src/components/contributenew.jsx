@@ -1,11 +1,11 @@
 import React, { useState, useContext, useEffect } from "react"
-import { urlContext, cityContext } from "./context";
+import { urlContext, userContext, citiesContext } from "./context";
 
-function ContributeNew({ displayedForm, allDates, cities, message, setMessage }) {
+function ContributeNew({ displayedForm, allDates, message, setMessage }) {
     return (
         <>
             {displayedForm === "dateListForm" && <DateListForm message={message} setMessage={setMessage} />}
-            {displayedForm === "dateExampleForm" && <DateExampleForm allDates={allDates} cities={cities} message={message} setMessage={setMessage} />}
+            {displayedForm === "dateExampleForm" && <DateExampleForm allDates={allDates} message={message} setMessage={setMessage} />}
             {displayedForm === "cityForm" && <CityForm message={message} setMessage={setMessage} />}
         </>
     )
@@ -75,7 +75,7 @@ export function DateListForm({ message, setMessage }) {
         </form>)
 }
 
-export function DateExampleForm({ allDates, myCity, cities, message, setMessage }) {
+export function DateExampleForm({ allDates, message, setMessage }) {
     const [dateExampleName, setDateExampleName] = useState("")
     const [dateExamplePrice, setDateExamplePrice] = useState("")
     const [dateExampleDescription, setDateExampleDescription] = useState("")
@@ -85,6 +85,9 @@ export function DateExampleForm({ allDates, myCity, cities, message, setMessage 
     const [dateExampleCity, setDateExampleCity] = useState(null)
     const [dateExampleType, setDateExampleType] = useState(null)
     const APIurl = useContext(urlContext)
+    const cities = useContext(citiesContext)
+    const userInfo = useContext(userContext)
+    const myCity = userInfo.city
 
     const postDateExample = async (event) => {
         event.preventDefault()
@@ -100,7 +103,7 @@ export function DateExampleForm({ allDates, myCity, cities, message, setMessage 
                     price: dateExamplePrice,
                     description: dateExampleDescription,
                     url: dateExampleUrl,
-                    imgUrl: dateExampleImg,
+                    "imgUrl": dateExampleImg,
                     city: dateExampleCity,
                     dateId: dateExampleType
                 })
@@ -162,6 +165,9 @@ export function DateExampleForm({ allDates, myCity, cities, message, setMessage 
 
 export function CityForm({message, setMessage}) {
     const APIurl = useContext(urlContext)
+    const cities = useContext(citiesContext)
+    const userInfo = useContext(userContext)
+    const myCity = userInfo.city
     const [cityName, setCityName] = useState("")
     const [cityState, setCityState] = useState("")
 

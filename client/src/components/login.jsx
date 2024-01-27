@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { urlContext, nameContext } from './context';
+import { urlContext, tokenContext } from './context';
+import Fetching from '../fetching';
 
 function Login({ token, setToken, user, setUser}) {
     const APIurl = useContext(urlContext)
@@ -27,30 +28,15 @@ function Login({ token, setToken, user, setUser}) {
             console.log("result", result);
             setToken(result.token)
             setUser(result.user)
-            setMyName(result.user.name)
-            setMyCity(result.user.city)
             return result
         } catch (error) {
             setMessage(error.message);
+            console.log(error.message)
         }
     }
 
-
-        const getCityById = async(cityId) => {
-            console.log(user.city)
-            try {
-                const response = await fetch(`${APIurl}/cities/${cityId}`)
-                const data = await response.json();
-                console.log(data)
-            } catch (error) {
-                console.log(error.message)
-            }
-            getCityById();
-        }
-
     return (
         <>
-            < nameContext.Provider value={myName} >
                 <form className="loginForm" method="post" onSubmit={login}>
                     <p className="message please"> <em> Please log in: </em></p>
                     <label> Email:
@@ -65,7 +51,7 @@ function Login({ token, setToken, user, setUser}) {
                     {message && (message !== 'Login successful!' && message !== 'Registration succesful!') && <p> {message} </p>}
                     {message === 'Login successful' && <p id="loginsuccess">Login successful!</p> && getCityById(myCity)}
                 </div>
-            </nameContext.Provider>
+                
         </>)
 }
 

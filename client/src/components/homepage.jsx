@@ -1,113 +1,82 @@
-import React, { useEffect, useContext, useState } from 'react'
-import { nameContext, urlContext, cityContext } from './context'
+import React, { useContext, useState } from 'react'
+import { tokenContext, userContext, favoritesContext, selectedDateContext, searchTermContext } from './context'
 import Example from './examplepage'
 import '../styles/homepage.css'
+import { sanitize, addFavorites, deleteFavorites } from '../fetching'
+import DateList from './datelist'
 
-function DateList({ selectedDate, setSelectedDate, dateTypes, allDates, favorites, token, user }) {
-    const APIurl = useContext(urlContext)
-    const myCity = useContext(cityContext)
+
+function HomePage({ dateTypes, allDates, selectedDate, setSelectedDate }) {
+    const myToken = useContext(tokenContext)
+    const userInfo = useContext(userContext)
+    const favorites = useContext(favoritesContext)
+    const myCity = userInfo.city
+    const myName = userInfo.name
     const [searchTerm, setSearchTerm] = useState("")
+    const [search, setSearch] = useState("")
     const [searchResults, setSearchResults] = useState([])
-    const [datetoUpdate, setDatetoUpdate] = useState(null)
-    const [updatedDoneDate, setUpdatedDoneDate] = useState(null)
     const [message, setMessage] = useState("")
     const [searchMessage, setSearchMessage] = useState("")
-    const favs = []
-
-    const datesFilterType = (e) => {
+    
+    const datesFilter = (e, search) => {
         e.preventDefault()
+        console.log(search)
         console.log(searchTerm)
-        const typeSearchResults = allDates.filter((date) => {
-            return date.type.toLowerCase().includes(searchTerm)
-        })
-        setSearchResults(typeSearchResults);
-      
-        return searchResults;
-    }
-
-    const datesFilterDone = (e) => { 
-        e.preventDefault()
-        console.log(searchTerm)
-        if (searchTerm === "true") {
-            const doneSearchResults = allDates.filter((date) => {
-                return date.lastDone
+        if (search === "type") {
+            const typeSearchResults = allDates.filter((date) => {
+                return date.type.toLowerCase().includes(searchTerm)
             })
-            setSearchResults(doneSearchResults) 
-        } else if (searchTerm === "false") {
-            const doneSearchResults = allDates.filter((date) => {
-                return !date.lastDone
+            setSearchResults(typeSearchResults);
+            console.log(typeSearchResults)
+        }
+        if (search === "done") {
+            if (searchTerm === "true") {
+                const doneSearchResults = allDates.filter((date) => {
+                    return date.lastDone
+                })
+                setSearchResults(doneSearchResults)
+            } else if (searchTerm === "false") {
+                const doneSearchResults = allDates.filter((date) => {
+                    return !date.lastDone
+                })
+                setSearchResults(doneSearchResults)
+            }
+        }
+        if (search === "atHome") {
+            const atHomeSearchResults = allDates.filter((date) => {
+                return date.atHome.toString() === searchTerm.toString()
             })
-            setSearchResults(doneSearchResults) 
+            setSearchResults(atHomeSearchResults);
         }
+        if (search === "price") {
+            const priceSearchResults = allDates.filter((date) => {
+                return date.price.includes(searchTerm)
+            })
+            setSearchResults(priceSearchResults)
+        }
+
         return searchResults;
     }
-
-    const datesFilterAtHome = (e) => { 
-        e.preventDefault()
-        console.log(searchTerm)
-        const atHomeSearchResults = allDates.filter((date) => {
-            return date.atHome.toString() === searchTerm.toString()
-        })
-        setSearchResults(atHomeSearchResults);
-        return searchResults;
-    }
-
-    const datesFilterPrice = (e) => { 
-        e.preventDefault()
-        console.log(searchTerm)
-        const priceSearchResults = allDates.filter((date) => {
-            return date.price.toLowerCase().includes(searchTerm)
-        })
-        setSearchResults(priceSearchResults);
-        console.log(priceSearchResults)
-        if (priceSearchResults.length === 0) {
-           setSearchMessage("Sorry, your search didn't match any results!")
-        }
-        setSearchTerm("")
-        return searchResults;
-     }
-
-    const searchResultsList =
-        searchResults.map((date) => {
-            return (<>
-                <div className="date card">
-                    <h3 className="title"> {date.name} </h3>
-                    <p className="datetype"> {date.type} </p>
-                    <img className="dateimage" src={date.imgUrl} />
-                    <p className="datedescription"> {date.description} </p>
-                    <p className="price"> {date.price} </p>
-                    {date.lastDone && <p className="lastdone"> The last time you did this was {date.newDoneDate} </p>}
-                    <form className="doneform" onSubmit={(event) => { updateDoneDate(event) }} >
-                        <label name="dateDone"> I did this on
-                            <input type="date" onChange={(e) => { setUpdatedDoneDate(e.target.value) }} />
-                        </label>
-                        <button type="submit" className="updateButton" onClick={() => { setDatetoUpdate(date.dateId) }}> Save </button>
-                    </form>
-                    {!date.atHome && myCity && <button className="dateButton" id={date.dateId} onClick={() => { setSelectedDate(date.dateId); setSearchTerm("") }}> In Your City </button>}
-                    {!date.atHome && !myCity && <button className="dateButton" id={date.dateId} onClick={() => { setSelectedDate(date.dateId); setSearchTerm("") }}> See Examples </button>}
-                </div>
-            </>
-            )
-        })
 
     const dateSearchbar =
-        (<div className="searchBar">
-            <form method="post" className="searchForm" onSubmit={datesFilterType}>
+        ( 
+        <div className="searchBar">
+            <form method="post" className="searchForm" onSubmit={(e) => { datesFilter(e, "type")}}>
                 <label> Filter by type <br />
-                    <select name="typeFilter" onChange={(e) => { setSearchTerm(e.target.value) }}>
+                    <select name="typeFilter" onChange={(e) => { setSearchTerm(e.target.value)}}>
                         <option value={""}> Select </option>
                         {dateTypes.map((type) => {
                             return (
-                                <option value={type.type}> {type.type} </option>
+                                <option value={type.type} name="type"> {type.type} </option>
                             )
                         })}
                     </select>
                 </label>
                 <button className="searchButton" type="submit"> Filter </button>
             </form>
-            <form method="post" className="searchForm" onSubmit={datesFilterAtHome}>
+            <form method="post" className="searchForm" onSubmit={(e) => {datesFilter(e, "atHome")}}>
                 <label> Filter by at home <br />
-                    <select name="atHomeFilter" onChange={(e) => {setSearchTerm(e.target.value)}} >
+                    <select name="atHomeFilter" onChange={(e) => { setSearchTerm(e.target.value)}} >
                         <option value={""}> Select </option>
                         <option value={true}> At home dates only </option>
                         <option value={false}> Outside dates only </option>
@@ -115,11 +84,11 @@ function DateList({ selectedDate, setSelectedDate, dateTypes, allDates, favorite
                 </label>
                 <button className="searchButton" type="submit"> Filter </button>
             </form>
-            <form method="post" className="searchForm" onSubmit={datesFilterPrice}>
+            <form method="post" className="searchForm" onSubmit={(e) => {datesFilter(e, "price")}}>
                 <label> Filter by price <br />
-                    <select name="priceFilter" onChange={(e) => setSearchTerm(e.target.value)} >
+                    <select name="priceFilter" onChange={(e) => { setSearchTerm(e.target.value)}} >
                         <option value={""}> Select </option>
-                        <option value="free-"> Free dates </option>
+                        <option value="Free"> Free dates </option>
                         <option value="$-"> $ or more </option>
                         <option value="$$-"> $$ or more </option>
                         <option value="$$$-"> $$$ or more </option>
@@ -128,134 +97,48 @@ function DateList({ selectedDate, setSelectedDate, dateTypes, allDates, favorite
                 </label>
                 <button className="searchButton" type="submit"> Filter </button>
             </form>
-            <form method="post" className="searchForm" onSubmit={datesFilterDone}>
-                <label> Filter by done <br />
-                    <select name="doneFilter" onChange={(e) => setSearchTerm(e.target.value)} >
-                        <option value={""}> Select </option>
-                        <option value={true}> Dates you've already done </option>
-                        <option value={false}> Dates you haven't done </option>
-                    </select>
-                </label>
-                <button className="searchButton" type="submit"> Filter </button>
-            </form>
-            <button className="resetButton" onClick={() => { setSearchTerm(null); setSearchResults([]) ; setMessage("") }}> See All Date Ideas </button>
-        </div>)
-    // TODO: add filter by price, by lastdone, by at home
+            <button className="resetButton" onClick={() => { setSearchTerm(null); setSearchResults([]); setSearch(""); setMessage("") }}> See All Date Ideas </button>
+        </div>
+        )
 
-    const updateDoneDate = async (event) => {
-        event.preventDefault()
-        console.log(datetoUpdate)
-        console.log(updatedDoneDate)
-        try {
-            const response = await fetch(`${APIurl}/dateList/${datetoUpdate}`, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    lastDone: updatedDoneDate,
-                }),
-            })
-            const result = await response.json
-            setMessage("Updated!")
-        } catch (error) {
-            setMessage(error.message)
-        }
-    }
+    // DECIDED NOT TO DO LAST DONE DATE 
+    // const [datetoUpdate, setDatetoUpdate] = useState(null)
+    // const [updatedDoneDate, setUpdatedDoneDate] = useState(null)
+    // const updateDoneDate = async (event) => {
+    //     event.preventDefault()
+    //     console.log(datetoUpdate)
+    //     console.log(updatedDoneDate)
+    //     try {
+    //         const response = await fetch(`${APIurl}/dateList/${datetoUpdate}`, {
+    //             method: "PUT",
+    //             headers: { "Content-Type": "application/json" },
+    //             body: JSON.stringify({
+    //                 lastDone: updatedDoneDate,
+    //             }),
+    //         })
+    //         const result = await response.json
+    //         setMessage("Updated!")
+    //     } catch (error) {
+    //         setMessage(error.message)
+    //     }
+    // }
 
-    const addFavorites = async (id) => {
-        console.log(id)
-        console.log(user.userId)
-        try {
-            const response = await fetch(`${APIurl}/users/${user.userId}/favorites`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    userId: user.userId,
-                    dateId: id
-                })
-            })
-            const result = await response.json()
-            setMessage("Added to your favorites!")
-        }
-        catch (error) {
-            setMessage(error.message)
-        }
-    }
-
-    const deleteFavorites = async (id) => {
-        console.log(id)
-        console.log(user.userId)
-        try { 
-            const response = await fetch(`${APIurl}/users/${user.userId}/favorites/` , {
-                method: "DELETE",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    userId: user.userId,
-                    dateId: id
-                })
-            });
-            setMessage("Removed from favorites!")
-        } catch (error) {
-            setMessage(error.message)
-        }}
- 
-    const sanitize = () => {
-        allDates.map((date) => {
-            if (date.lastDone) {
-                const d = new Date(date.lastDone)
-                date.newDoneDate = d.toDateString()
-                return date;
-            }
-        })
-        return
-    }
-
-    const allDatesList =
-        allDates.map((date) => {
-            return (
-                <div className="date card" id={date.dateId}>
-                    <h3 className="title"> {date.name} </h3>
-                    {favorites.map((favorite) => {
-                        if (favorite.dateId === date.dateId) (favs.push(date.dateId))
-                    })}
-                    {favs.includes(date.dateId) ? <button className="favoritebutton" id={date.dateId} onClick={()=>{deleteFavorites(date.dateId)}}> Remove from favorites </button> :
-                    <button className="favoritebutton" id={date.dateId} onClick={()=>{addFavorites(date.dateId)}}> Add to favorites </button>}
-                    <p className="datetype"> {date.type} </p>
-                    <img className="dateimage" src={date.imgUrl} />
-                    <p className="datedescription"> {date.description} </p>
-                    <p className="price"> {date.price} </p>
-                    {date.lastDone && <p className="lastdone"> The last time you did this was {date.newDoneDate} </p>}
-                    <form className="doneform" onSubmit={(event) => { updateDoneDate(event) }} >
-                        <label name="dateDone"> I did this on
-                            <input type="date" onChange={(e) => { setUpdatedDoneDate(e.target.value) }} />
-                        </label>
-                        <button type="submit" className="updateButton" onClick={() => { setDatetoUpdate(date.dateId) }}> Save </button>
-                        {message && <p> {message} </p>}
-                    </form>
-                    {!date.atHome && myCity && <button className="dateButton" id={date.dateId} onClick={() => { setSelectedDate(date.dateId); setSearchTerm("") }}> In Your City </button>}
-                    {!date.atHome && !myCity && <button className="dateButton" id={date.dateId} onClick={() => { setSelectedDate(date.dateId); setSearchTerm("") }}> See Examples </button>}
-                </div>
-            )
-        })
+{console.log(search)}
+{console.log(searchTerm)}
+{console.log(searchResults)}
 
     return (<>
-        {sanitize()}
-        {console.log(favorites)}
-        <div className="dateSearchBar"> {dateSearchbar} </div>
-        {allDates.length === 0 && <p> No dates available! Log in to add ideas </p>}
-        {selectedDate && <Example selectedDate={selectedDate} setSelectedDate={setSelectedDate} />}
-        {searchResults.length > 0 && !selectedDate &&
-            <>
-                <div className="dateListArea"> {searchResultsList} </div>
-                <button className="resetButton" onClick={() => { setSearchTerm(null); setSearchResults([]) }}> See All Date Ideas </button>
-            </>
-        }
-        {searchResults.length === 0 && searchMessage && <p> {searchMessage} </p>}
-        {searchResults.length === 0 && !searchMessage && !selectedDate && <div className="dateListArea"> {allDatesList} </div>}
+    <selectedDateContext.Provider value={selectedDate}>
+            {<div className="dateSearchBar"> {dateSearchbar} </div> }
+            {allDates.length === 0 && <p> No dates available! Log in to add ideas </p>}
+            {selectedDate && <Example selectedDate={selectedDate} setSelectedDate={setSelectedDate} />}
+            {!selectedDate && !!searchResults.length && searchResults.length === 0 && <p className="searchMessage"> Sorry, your search didn't return any results! </p>}
+            {!selectedDate && !searchResults.length && <DateList dates={allDates} selectedDate={selectedDate} setSelectedDate={setSelectedDate} message={message} setMessage={setMessage}/> }
+            {!!searchResults.length && <DateList dates={searchResults} selectedDate={selectedDate} setSelectedDate={setSelectedDate} message={message} setMessage={setMessage}/>}
+            {message}
+    </selectedDateContext.Provider>
+       
     </>)
 }
 
-export default DateList; 
+export default HomePage; 

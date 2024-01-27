@@ -1,5 +1,7 @@
+// Decided not to use this for now
+
 import React, { useState, useContext, useEffect } from "react"
-import { urlContext, cityContext } from "./context";
+import { urlContext } from "./context";
 
 export default function ContributeEdit({ displayedForm, allDates, dateExamples, cities, message, setMessage }) {
     return (

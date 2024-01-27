@@ -1,10 +1,12 @@
 import React, {useContext, useState, useEffect, createContext} from 'react';
-import { urlContext, cityContext} from './context';
+import { urlContext, userContext, citiesContext} from './context';
 import '../styles/cities.css'
 
-function Cities({cities}) {
+function Cities() {
     const APIurl = useContext(urlContext)
-    const myCity = useContext(cityContext)
+    const user = useContext(userContext)
+    const cities = useContext(citiesContext)
+    const myCity=user.city
     const [city, setCity] = useState(myCity)
     const [cityDates, setCityDates] = useState([])
     const [message, setMessage] = useState("")
@@ -25,24 +27,24 @@ function Cities({cities}) {
         getCityDates();
     }
 
-    const updateBeenThere = async (event) => {
-        event.preventDefault()
-        console.log(exampletoUpdate)
-        console.log(updateCheck)
-        try {
-            const response = await fetch(`${APIurl}/dateExamples/${exampletoUpdate}`, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    beenThere: updateCheck,
-                }),
-            })
-            const result = await response.json
-            setMessage("Updated!")
-        } catch (error) {
-            setMessage(error.message)
-        }
-    }
+    // const updateBeenThere = async (event) => {
+    //     event.preventDefault()
+    //     console.log(exampletoUpdate)
+    //     console.log(updateCheck)
+    //     try {
+    //         const response = await fetch(`${APIurl}/dateExamples/${exampletoUpdate}`, {
+    //             method: "PUT",
+    //             headers: { "Content-Type": "application/json" },
+    //             body: JSON.stringify({
+    //                 beenThere: updateCheck,
+    //             }),
+    //         })
+    //         const result = await response.json
+    //         setMessage("Updated!")
+    //     } catch (error) {
+    //         setMessage(error.message)
+    //     }
+    // }
 
     const cityFilter =
         (<>
@@ -71,24 +73,24 @@ function Cities({cities}) {
                     <img className="dateimage" src={date.imgUrl} />
                     <p className="datedescription"> {date.description} </p>
                     <p className="price"> {date.price} </p>
-                    <form className="doneform" onSubmit={(event) => {updateBeenThere(event)}} >
+                    {/* <form className="doneform" onSubmit={(event) => {updateBeenThere(event)}} >
                         <label name="dateDone"> Have you been here? 
                             <input type="checkbox" defaultChecked={date.beenThere} onChange={(e)=>{setUpdateCheck(e.target.checked)}} /> 
                         </label> 
                         <button type="submit" className="updateButton" onClick={()=>{setExampletoUpdate(date.exampleId)}}> Save </button> 
-                    </form>
+                    </form> */}
                     <a href={date.url} target="_blank"> Visit website </a>
                 </div>
             )
         })
 
     return (
-        <> 
+        <div className="cityArea"> 
             {myCity &&  <p> Your city is {myCity.name}, {myCity.state} </p>}
             {<p> Please select a city </p> && cityFilter }
             {<div className="dateListArea"> {cityDatesList} </div> }
             {message && <p> {message} </p>}
-        </>
+        </div>
     )
 }
 

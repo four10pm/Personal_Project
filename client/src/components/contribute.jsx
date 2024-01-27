@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { urlContext, cityContext} from './context'
+import { urlContext, userContext} from './context'
 import ContributeNew from './contributenew'
-import ContributeEdit from './contributeedit'
 import ContributeDelete from './contributedelete'
 import '../styles/contribute.css'
 
@@ -9,7 +8,8 @@ import '../styles/contribute.css'
 function Contribute({dateTypes, setDateType, cities, setCities, allDates, setAllDates, dateExamples, setDateExamples}) {
     
     const apiURL = useContext(urlContext)
-    const myCity=useContext(cityContext)
+    const userInfo = useContext(userContext)
+    const myCity=userInfo.city
     const [displayedForm, setDisplayedForm] = useState(null)
     const [message, setMessage] = useState("")
 

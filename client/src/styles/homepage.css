@@ -1,8 +1,15 @@
+
+
+.pageTop {
+  background-color: white; 
+}
+
 .searchBar {
   display: flex; 
   justify-content: space-evenly;
   background-color: #242424;
   padding: 5px;
+  /* margin-top: 5px; */
 }
 
 .searchForm {
@@ -14,8 +21,9 @@
     padding: 5px;
 }
 
-label {
+.searchForm > label {
   margin: 2px; 
+  align-self: center;
 }
 
 input {
@@ -28,10 +36,12 @@ input {
     width: 100%; 
     background-color: #242424;
     color: white; 
+    justify-content: space-around;
+    padding-bottom: 10px; 
   }
   
   .date {
-    border: 2px white solid; 
+    border: 2px #ffe6ea solid; 
     padding: 5px; 
     width: 25%;
     margin: 5px; 
@@ -44,11 +54,11 @@ input {
 
   .dateimage {
     height: 150px; 
-    width: 75%;
+    width: 50%;
   }
   
   .dateButton {
-    background-color: lightgray; 
+    background-color: #ffb3c1; 
     color: black; 
   }
 
@@ -60,13 +70,18 @@ input {
   }
 
   .searchButton {
-    background-color: lightgray;
+    background-color: #ffccd5;
     width: 50%;
     align-self: center;
   }
 
   .resetButton {
-    background-color: lightgray;
+    background-color: #ffccd5;
     height: 50%; 
     align-self: center; 
+  }
+
+  .buttonArea {
+    background-color: #242424;
+    padding: 5px;
   }
