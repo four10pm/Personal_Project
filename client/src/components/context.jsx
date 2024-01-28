@@ -1,5 +1,5 @@
-import { createContext, useState } from "react";
-export const urlContext = createContext(process.env.API_URL || "http://localhost:8080/api")
+import { createContext } from "react";
+export const urlContext = createContext(process.env.API_URL)
 export const tokenContext = createContext(null);
 export const userContext = createContext({name: "Planner"});
 export const allDatesContext = createContext([])
