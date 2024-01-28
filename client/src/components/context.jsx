@@ -1,5 +1,5 @@
 import { createContext } from "react";
-export const urlContext = createContext(process.env.API_URL)
+export const urlContext = createContext("https://datenight-project-web.onrender.com/api")
 export const tokenContext = createContext(null);
 export const userContext = createContext({name: "Planner"});
 export const allDatesContext = createContext([])
