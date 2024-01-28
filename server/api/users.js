@@ -3,7 +3,7 @@ const util = require('util');
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { JWT_SECRET } = require("../secrets");
+const JWT_SECRET  = process.env.JWT_SECRET || require('../secrets').JWT_SECRET
 const SALT_ROUNDS = 2;
 
 // const { authRequired } = require('./utils');

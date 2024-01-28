@@ -17,7 +17,7 @@ app.use(cors());
 
 // init db client
 const client = require('./server/db/client');
-const { COOKIE_SECRET } = require('./server/secrets');
+const COOKIE_SECRET  = process.env.COOKIE_SECRET || require('../secrets').COOKIE_SECRET
 client.connect();
 
 const cookieParser = require('cookie-parser')

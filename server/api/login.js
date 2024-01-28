@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-const { JWT_SECRET } = require('../secrets')
+const JWT_SECRET  = process.env.JWT_SECRET || require('../secrets').JWT_SECRET
 
 const authRequired = (req, res, next) => {
   const token = req.get('Authorization').split(' ')[1];
