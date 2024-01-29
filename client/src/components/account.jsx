@@ -1,5 +1,5 @@
-import React, { useEffect, useContext, useState, createContext } from 'react'
-import { urlContext, userContext, tokenContext, favoritesContext, selectedDateContext } from './context';
+import React, { useEffect, useContext, useState } from 'react'
+import { urlContext, userContext, tokenContext, favoritesContext } from './context';
 import Login from './login';
 import Register from './register';
 import DateList from './datelist';
@@ -125,10 +125,5 @@ function Account({ cities, favorites, setFavorites, user, setUser, setToken }) {
 
     )
 }
-
-// TO DO 
-// Mobile styling
-// Need to remove debugger from add to favorites 
-// clean up code
 
 export default Account; 

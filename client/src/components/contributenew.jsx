@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react"
+import React, { useState, useContext } from "react"
 import { urlContext, userContext, citiesContext } from "./context";
 
 function ContributeNew({ displayedForm, allDates, message, setMessage }) {
@@ -10,7 +10,7 @@ function ContributeNew({ displayedForm, allDates, message, setMessage }) {
         </>
     )
 }
-//TODO: dateexample ImgURL not working
+
 export function DateListForm({ message, setMessage }) {
     const [dateListName, setDateListName] = useState("")
     const [atHome, setAtHome] = useState(false)
