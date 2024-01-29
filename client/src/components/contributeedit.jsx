@@ -102,70 +102,70 @@ function EditDateExampleForm({ dateExamples, cities, allDates, message, setMessa
     }
     console.log(dateExample.city)
 
-    const editExampleForm = 
+    const editExampleForm =
         (
-            <form name="editExampleForm" onSubmit={(event)=>{editDateExample(event)}}> 
-            <label> Edit the name:
-                <input id="name" defaultValue={dateExample.name} placeholder={dateExample.name} onChange={(event) => { setDateExample.name ( event.target.value) }} />
-            </label> <br />
-            <label> Edit the address:
-                <input id="address" defaultValue={dateExample.address} placeholder={dateExample.address} onChange={(event) => { setDateExample(dateExample.address===event.target.value) }} />
-            </label> <br />
-            <label> Edit the city:
-                <select name="cityFilter" defaultValue={dateExample.city} onChange={(e) => { setDateExample(dateExample.city===e.target.value) }}>
-                    <option value={""}> Select </option>
-                    {cities.map((city) => {
-                        return (
-                            <option value={city.cityId}> {city.name}, {city.state} </option>
-                        )
-                    })}
-                </select>
-            </label> <br />
-            <label> Edit the date type:
-                <select name="typeFilter" defaultValue={dateExample.dateId} onChange={(e) => { setDateExample.type(e.target.value) }}>
-                    <option value={""}> Select </option>
-                    {allDates.map((date) => {
-                        if (!date.atHome) {
+            <form name="editExampleForm" onSubmit={(event) => { editDateExample(event) }}>
+                <label> Edit the name:
+                    <input id="name" defaultValue={dateExample.name} placeholder={dateExample.name} onChange={(event) => { setDateExample.name(event.target.value) }} />
+                </label> <br />
+                <label> Edit the address:
+                    <input id="address" defaultValue={dateExample.address} placeholder={dateExample.address} onChange={(event) => { setDateExample(dateExample.address === event.target.value) }} />
+                </label> <br />
+                <label> Edit the city:
+                    <select name="cityFilter" defaultValue={dateExample.city} onChange={(e) => { setDateExample(dateExample.city === e.target.value) }}>
+                        <option value={""}> Select </option>
+                        {cities.map((city) => {
                             return (
-                                <option value={date.dateId}> {date.name} </option>
+                                <option value={city.cityId}> {city.name}, {city.state} </option>
                             )
-                        }
-                    })}
-                </select>
-            </label> <br />
-            <label> Edit the date price:
-                <input id="price" placeholder={dateExample.price} defaultValue={dateExample.price} onChange={(event) => { setDateExample.price(event.target.value) }} />
-            </label> <br />
-            <label> Edit the date description:
-                <input id="description" type="textbox" placeholder={dateExample.description} defaultValue={dateExample.description} onChange={(event) => { setDateExample.description(event.target.value) }} />
-            </label> <br />
-            <label> Edit the website link:
-                <input id="url" placeholder={dateExample.url} defaultValue={dateExample.url} onChange={(event) => { setDateExample.url(event.target.value) }} />
-            </label> <br />
-            <label> Edit the image URL:
-                <input id="imgUrl" placeholder={dateExample.imgUrl} defaultValue={dateExample.url} onChange={(event) => { setDateExample.imgUrl(event.target.value) }} />
-            </label> <br />
-            <button type="submit" > Submit</button>
-        </form>
+                        })}
+                    </select>
+                </label> <br />
+                <label> Edit the date type:
+                    <select name="typeFilter" defaultValue={dateExample.dateId} onChange={(e) => { setDateExample.type(e.target.value) }}>
+                        <option value={""}> Select </option>
+                        {allDates.map((date) => {
+                            if (!date.atHome) {
+                                return (
+                                    <option value={date.dateId}> {date.name} </option>
+                                )
+                            }
+                        })}
+                    </select>
+                </label> <br />
+                <label> Edit the date price:
+                    <input id="price" placeholder={dateExample.price} defaultValue={dateExample.price} onChange={(event) => { setDateExample.price(event.target.value) }} />
+                </label> <br />
+                <label> Edit the date description:
+                    <input id="description" type="textbox" placeholder={dateExample.description} defaultValue={dateExample.description} onChange={(event) => { setDateExample.description(event.target.value) }} />
+                </label> <br />
+                <label> Edit the website link:
+                    <input id="url" placeholder={dateExample.url} defaultValue={dateExample.url} onChange={(event) => { setDateExample.url(event.target.value) }} />
+                </label> <br />
+                <label> Edit the image URL:
+                    <input id="imgUrl" placeholder={dateExample.imgUrl} defaultValue={dateExample.url} onChange={(event) => { setDateExample.imgUrl(event.target.value) }} />
+                </label> <br />
+                <button type="submit" > Submit</button>
+            </form>
         )
-    
+
 
     return (
         <>
-        <form name="chooseDateExample" className="contributeform" onSubmit = {(e) => {filterExamples(e) ; console.log(exampleIdtoEdit)}}>
-            <label> Which date would you like to edit?
-                <select required name="editDateExample" onChange={(e) => { setExampleIdtoEdit(e.target.value) }}>
-                    <option value={""}> Select </option>
-                    {dateExamples.map((example) => {
-                        return (
-                            <option value={example.exampleId}> {example.name} </option>
-                        )
-                    })}
-                </select>
-            </label> <br />
-            <button type="submit"> Submit </button>
-        </form> 
-       {setEditFormDisplay && editExampleForm}
+            <form name="chooseDateExample" className="contributeform" onSubmit={(e) => { filterExamples(e); console.log(exampleIdtoEdit) }}>
+                <label> Which date would you like to edit?
+                    <select required name="editDateExample" onChange={(e) => { setExampleIdtoEdit(e.target.value) }}>
+                        <option value={""}> Select </option>
+                        {dateExamples.map((example) => {
+                            return (
+                                <option value={example.exampleId}> {example.name} </option>
+                            )
+                        })}
+                    </select>
+                </label> <br />
+                <button type="submit"> Submit </button>
+            </form>
+            {setEditFormDisplay && editExampleForm}
         </>
     )
 }
@@ -209,19 +209,19 @@ function EditCityForm({ cities, message, setMessage }) {
     console.log(cityIDtoEdit)
     console.log(citytoEdit)
 
-    const editCityForm = 
-    (
-        <form name="editCity" className="contributeform" onSubmit={(event)=>{editCity(event)}}>
-            <label> Edit the city name: 
-                <input id="name" placeholder={citytoEdit.name} defaultValue={citytoEdit.name} onChange={(e) => {setCitytoEdit(e.target.value)}}/> 
-            </label> <br/>
-            <label> Edit the state: 
-                <input id="state" placeholder={citytoEdit.state} defaultValue={citytoEdit.state} onChange={(e) => {setCitytoEdit(e.target.value)}}/> 
-            </label> <br/> 
-            <button type="submit"> Submit </button>
-            {console.log(citytoEdit)}
-        </form>
-    )
+    const editCityForm =
+        (
+            <form name="editCity" className="contributeform" onSubmit={(event) => { editCity(event) }}>
+                <label> Edit the city name:
+                    <input id="name" placeholder={citytoEdit.name} defaultValue={citytoEdit.name} onChange={(e) => { setCitytoEdit(e.target.value) }} />
+                </label> <br />
+                <label> Edit the state:
+                    <input id="state" placeholder={citytoEdit.state} defaultValue={citytoEdit.state} onChange={(e) => { setCitytoEdit(e.target.value) }} />
+                </label> <br />
+                <button type="submit"> Submit </button>
+                {console.log(citytoEdit)}
+            </form>
+        )
 
     return (
         <form name="chooseCity" className="contributeform" onSubmit={(event) => { cityInfo(event) }}>

@@ -1,34 +1,35 @@
-import React, {useContext, useState, useEffect, createContext} from 'react';
-import { urlContext, userContext, citiesContext} from './context';
+import React, { useContext, useState, useEffect, createContext } from 'react';
+import { urlContext, userContext, citiesContext } from './context';
 import '../styles/cities.css'
 
 function Cities() {
     const APIurl = useContext(urlContext)
     const user = useContext(userContext)
     const cities = useContext(citiesContext)
-    const myCity=user.city
+    const myCity = user.city
     const [city, setCity] = useState(myCity)
     const [cityDates, setCityDates] = useState([])
     const [message, setMessage] = useState("")
     const [exampletoUpdate, setExampletoUpdate] = useState(null)
     const [updateCheck, setUpdateCheck] = useState(null)
-    
+
     async function getCityDates(e) {
         e.preventDefault()
-        if (city==="") {setCityDates([]) ; setMessage("Please choose a city!")}
-        console.log(city)
-            try {
-                const response = await fetch(`${APIurl}/dateExamples/cities/${city}`)
-                const data = await response.json();
-                setCityDates(data)
-                if (data.length === 0) {setMessage("No dates available for this city yet!")
-                    } else {setMessage("")}
-            } catch (error) {
-                console.log(error.message)
-            }
+        if (city === "") { setCityDates([]); setMessage("Please choose a city!") }
+        try {
+            const response = await fetch(`${APIurl}/dateExamples/cities/${city}`)
+            const data = await response.json();
+            setCityDates(data)
+            if (data.length === 0) {
+                setMessage("No dates available for this city yet!")
+            } else { setMessage("") }
+        } catch (error) {
+            console.log(error.message)
+        }
         getCityDates();
     }
 
+    // Decided not to do this, but leaving in in case I want to add it later: 
     // const updateBeenThere = async (event) => {
     //     event.preventDefault()
     //     console.log(exampletoUpdate)
@@ -64,8 +65,8 @@ function Cities() {
                 <button name="filterbutton" className="searchButton" type="submit"> Filter </button>
             </form>
         </>)
-     
-     const cityDatesList =
+
+    const cityDatesList =
         cityDates.map((date) => {
             return (
                 <div className="date example card">
@@ -87,10 +88,10 @@ function Cities() {
         })
 
     return (
-        <div className="cityArea"> 
-            {myCity &&  <p> Your city is {myCity.name}, {myCity.state} </p>}
-            {<p> Please select a city </p> && cityFilter }
-            {<div className="dateListArea"> {cityDatesList} </div> }
+        <div className="cityArea">
+
+            {<p> Please select a city </p> && cityFilter}
+            {<div className="dateListArea"> {cityDatesList} </div>}
             {message && <div className="searchMessage"> {message} </div>}
             {/* {cityDates && cityDates.length === 0 && <p className="searchMessage"> No dates for this city yet! </p> } */}
         </div>

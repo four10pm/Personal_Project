@@ -3,8 +3,8 @@ import { useState } from 'react'
 import { urlContext, userContext } from './context'
 import '../styles/homepage.css'
 
-function Example ({selectedDate, setSelectedDate}) {
-    const APIurl = useContext(urlContext) 
+function Example({ selectedDate, setSelectedDate }) {
+    const APIurl = useContext(urlContext)
     const userInfo = useContext(userContext)
     const myCity = userInfo.city
     const [examples, setExamples] = useState([])
@@ -44,8 +44,8 @@ function Example ({selectedDate, setSelectedDate}) {
     //     }
     // }
 
-    const exampleDatesList = 
-       
+    const exampleDatesList =
+
         dateExamplesbyId.filter((date) => !myCity || date.cityId === myCity).map((date) => {
             return (
                 <div className="date example card">
@@ -68,10 +68,10 @@ function Example ({selectedDate, setSelectedDate}) {
 
     return (
         <>
-            <div className="dateListArea"> {exampleDatesList} </div> 
-            {message && <p> {message} </p> }
-            <div className="buttonArea"> 
-            <button className="resetButton" onClick={() => {setSelectedDate(null); setMessage("")}}> See All Dates </button>
+            <div className="dateListArea"> {exampleDatesList} </div>
+            {message && <p> {message} </p>}
+            <div className="buttonArea">
+                <button className="resetButton" onClick={() => { setSelectedDate(null); setMessage("") }}> See All Dates </button>
             </div>
         </>
     )

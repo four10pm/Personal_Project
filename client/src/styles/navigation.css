@@ -15,3 +15,21 @@
 .navLink {
     font-weight: bold;
 }
+
+@media screen and (max-width: 780px) {
+    .navbar {
+        flex-direction: column;
+    }
+
+    p {
+        margin: 0;
+    }
+
+    .navItem {
+        padding: 2px;
+    }
+
+    .welcome {
+        text-align: center;
+    }
+}

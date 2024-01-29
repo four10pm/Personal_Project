@@ -12,3 +12,13 @@
     color: white; 
     padding: 5px;
 }
+
+@media screen and (max-width: 780px) {
+    #citysearch {
+        flex-direction: column;
+    }
+
+    #citysearch > label {
+        text-align: center;
+    }
+}

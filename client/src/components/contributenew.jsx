@@ -22,8 +22,6 @@ export function DateListForm({ message, setMessage }) {
 
     const postDateList = async (event) => {
         event.preventDefault()
-        console.log("test")
-        console.log({ APIurl })
         try {
             const response = await fetch(`${APIurl}/dateList`, {
                 method: 'POST',
@@ -40,38 +38,35 @@ export function DateListForm({ message, setMessage }) {
                 })
             })
             const result = await response.json()
-            console.log("hi")
-            console.log(result)
             setMessage("Thank you for your contribution!")
-            console.log(message)
         }
         catch (error) {
-            setMessage(error.message)
-            console.log(message)
+            setMessage("There's been an error! Please try again")
+            console.log(error.message)
         }
     }
 
     return (
-        <form name="contributeDateList" className="contributeform" onSubmit={(event) => { postDateList(event) }}>
-            <label> What would you call this date?
+        <form name="contributeDateList" className="contributeform addForm" onSubmit={(event) => { postDateList(event) }}>
+            <label> What would you call this date? &nbsp;
                 <input id="name" placeholder="name your date!" onChange={(event) => { setDateListName(event.target.value) }} />
             </label> <br />
-            <label> Is this an at home date?
+            <label> Is this an at home date? &nbsp;
                 <input id="atHome" type="checkbox" onChange={(event) => { setAtHome(true) }} />
             </label> <br />
-            <label> What kind of date is it?
+            <label> What kind of date is it? &nbsp;
                 <input id="type" onChange={(event) => { setDateListType(event.target.value) }} />
             </label> <br />
-            <label> How much does it cost?
+            <label> How much does it cost? &nbsp;
                 <input id="price" placeholder="free-$$$$" onChange={(event) => { setDateListPrice(event.target.value) }} />
             </label> <br />
-            <label> Tell us about your date:
+            <label> Tell us about your date: &nbsp;
                 <input id="description" type="textbox" onChange={(event) => { setDateListDescription(event.target.value) }} />
             </label> <br />
-            <label> Add an image URL:
+            <label> Add an image URL: &nbsp;
                 <input id="imgUrl" onChange={(event) => { setDateListImg(event.target.value) }} />
             </label> <br />
-            <button name="dateListSubmit" type="submit"> Submit </button>
+            <button name="dateListSubmit" type="submit" className="submitButton"> Submit </button>
         </form>)
 }
 
@@ -118,14 +113,14 @@ export function DateExampleForm({ allDates, message, setMessage }) {
     }
 
     return (
-        <form name="contributeDateList" className="contributeform" onSubmit={(event) => { postDateExample(event) }}>
-            <label> What would you call this date?
+        <form name="contributeDateList" className="contributeform addForm" onSubmit={(event) => { postDateExample(event) }}>
+            <label> What would you call this date? &nbsp;
                 <input id="name" placeholder="name your date!" onChange={(event) => { setDateExampleName(event.target.value) }} />
             </label> <br />
-            <label> What's the address?
+            <label> What's the address? &nbsp;
                 <input id="address" onChange={(event) => { setDateExampleAddress(event.target.value) }} />
             </label> <br />
-            <label> Which city is it in?
+            <label> Which city is it in? &nbsp;
                 <select name="cityFilter" defaultValue={myCity} onChange={(e) => { setDateExampleCity(e.target.value) }}>
                     <option value={""}> Select </option>
                     {cities.map((city) => {
@@ -135,7 +130,7 @@ export function DateExampleForm({ allDates, message, setMessage }) {
                     })}
                 </select>
             </label> <br />
-            <label> What kind of date is it?
+            <label> What kind of date is it? &nbsp;
                 <select name="typeFilter" onChange={(e) => { setDateExampleType(e.target.value) }}>
                     <option value={""}> Select </option>
                     {allDates.map((date) => {
@@ -147,23 +142,23 @@ export function DateExampleForm({ allDates, message, setMessage }) {
                     })}
                 </select>
             </label> <br />
-            <label> How much does it cost?
+            <label> How much does it cost? &nbsp;
                 <input id="price" placeholder="free-$$$$" onChange={(event) => { setDateExamplePrice(event.target.value) }} />
             </label> <br />
-            <label> Tell us about your date:
+            <label> Tell us about your date: &nbsp;
                 <input id="description" type="textbox" onChange={(event) => { setDateExampleDescription(event.target.value) }} />
             </label> <br />
-            <label> Link to the website:
+            <label> Link to the website: &nbsp;
                 <input id="url" onChange={(event) => { setDateExampleUrl(event.target.value) }} />
             </label> <br />
-            <label> Add an image URL:
+            <label> Add an image URL: &nbsp;
                 <input id="imgUrl" onChange={(event) => { setDateExampleImg(event.target.value) }} />
             </label> <br />
-            <button type="submit"> Submit </button>
+            <button type="submit" className="submitButton"> Submit </button>
         </form>)
 }
 
-export function CityForm({message, setMessage}) {
+export function CityForm({ message, setMessage }) {
     const APIurl = useContext(urlContext)
     const cities = useContext(citiesContext)
     const userInfo = useContext(userContext)
@@ -172,7 +167,7 @@ export function CityForm({message, setMessage}) {
     const [cityState, setCityState] = useState("")
 
     const postCity = async (event) => {
-        
+
         event.preventDefault()
         try {
             const response = await fetch(`${APIurl}/cities`, {
@@ -194,14 +189,14 @@ export function CityForm({message, setMessage}) {
     }
 
     return (
-        <form name="contributeCity" className="contributeform" onSubmit={(event) => {postCity(event)}}>
-            <label> What is the name of the city?
+        <form name="contributeCity" className="contributeform addForm" onSubmit={(event) => { postCity(event) }}>
+            <label> What is the name of the city? &nbsp;
                 <input id="city" onChange={(event) => { setCityName(event.target.value) }} />
             </label><br />
-            <label> What state is the city in?
+            <label> What state is the city in? &nbsp;
                 <input id="state" onChange={(event) => { setCityState(event.target.value) }} />
             </label> <br />
-            <button type="submit"> Submit </button>
+            <button type="submit" className="submitButton"> Submit </button>
         </form>
     )
 }

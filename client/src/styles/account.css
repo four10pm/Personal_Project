@@ -27,10 +27,13 @@ button {
     padding: 5px;
 }
 
+.favoritesList > .dateListArea { 
+    justify-content: left; 
+}
+
 .accountCity {
     display: flex; 
-    width: 50%;
-    justify-content: space-between; 
+    justify-content: left;
 }
 
 #choosecity {
@@ -47,4 +50,41 @@ button {
 
 .loginButton {
     background-color: #ffe6ea;
+}
+
+.submitButton {
+    background-color: #ffe6ea;
+}
+
+.favoritebutton {
+    background-color: #ffe6ea;
+}
+
+@media screen and (max-width: 780px) {
+    .login {
+        flex-direction: column;
+    }
+
+    label {
+        align-self: auto;
+        padding: 3px;
+    }
+
+    .account {
+        padding: 2px;
+    }
+
+    .accountCity {
+        flex-direction: column;
+        width: auto;
+    }
+
+    #chooseCity {
+        margin: 5px;
+    }
+    
+    .favoritesList> p { 
+        padding: 5px;
+    }
+
 }

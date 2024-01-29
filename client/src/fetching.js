@@ -107,7 +107,6 @@ export const getCityById = async () => {
 
 export const changeCity = async (e) => {
     e.preventDefault()
-    console.log(newCityId)
     try {
         const response = await fetch(`${APIurl}/users/${userInfo.userId}`, {
             method: "PUT",
@@ -125,8 +124,6 @@ export const changeCity = async (e) => {
 }
 
 export const addFavorites = async (id, userInfo, APIurl, setMessage) => {
-    console.log(id)
-    debugger;
     try {
         const response = await fetch(`${APIurl}/users/${userInfo.userId}/favorites`, {
             method: 'POST',
@@ -148,8 +145,6 @@ export const addFavorites = async (id, userInfo, APIurl, setMessage) => {
 }
 
 export const deleteFavorites = async (id, userInfo, APIurl, setMessage) => {
-    console.log(id)
-    console.log(userInfo.userId)
     try {
         const response = await fetch(`${APIurl}/users/${userInfo.userId}/favorites/`, {
             method: "DELETE",
