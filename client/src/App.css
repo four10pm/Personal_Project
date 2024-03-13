@@ -13,6 +13,7 @@ body {
 
 h1 {
   margin: 10px 5px 10px 5px; 
+  background-color: #242424; 
 }
 
 @media screen and (max-width: 780px) {
