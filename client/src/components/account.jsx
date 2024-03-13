@@ -91,7 +91,7 @@ function Account({ cities, favorites, setFavorites, user, setUser, setToken }) {
                             <p> Welcome &nbsp; </p>
                             <p className="accountDetails"> {userInfo.name}! </p></div>
                         <div className="accountCity">
-                            {!userInfo.city && <p> Please choose a city! </p>}
+                            {!userInfo.city && <p> Please choose a city! &nbsp; </p>}
                             {userInfo.city && getCityById() &&
                                 <div className="account">
                                     <p> Your city is &nbsp; </p>
